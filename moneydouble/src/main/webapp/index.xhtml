@@ -1,10 +1,13 @@
 <?xml version="1.0"	encoding="UTF-8"?>
-<html xmlns="h6p://www.w3.org/1999/xhtml"
-	xmlns:h="h6p://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
+	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css"/>
 	<title>My First Webproject</title>
 </h:head>
 <h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<h1>Willkommen zu meinem ersten Webprojekt!</h1>
 </h:body>
 </html>
