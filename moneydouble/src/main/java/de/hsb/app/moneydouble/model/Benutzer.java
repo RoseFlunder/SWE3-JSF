@@ -20,15 +20,28 @@ public class Benutzer implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
-	
+
 	private String username;
 	private String password;
+	private Rolle rolle;
 	
 	@Temporal(TemporalType.DATE)
 	private Date geburtsdatum;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Kreditkarte kreditkarte;
+	
+	public Benutzer(){
+		
+	}
+	
+	public Benutzer(String username, String password, Rolle rolle, Date geburtsdatum) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.rolle = rolle;
+		this.geburtsdatum = geburtsdatum;
+	}
 
 	public Kreditkarte getKreditkarte() {
 		return kreditkarte;
@@ -60,6 +73,14 @@ public class Benutzer implements Serializable {
 
 	public void setGeburtsdatum(Date geburtsdatum) {
 		this.geburtsdatum = geburtsdatum;
+	}
+
+	public Rolle getRolle() {
+		return rolle;
+	}
+
+	public void setRolle(Rolle rolle) {
+		this.rolle = rolle;
 	}
 	
 
