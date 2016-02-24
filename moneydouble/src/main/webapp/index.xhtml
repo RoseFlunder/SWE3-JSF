@@ -1,7 +1,8 @@
 <?xml version="1.0"	encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+	  xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css"/>
 	<title>My First Webproject</title>
@@ -9,5 +10,10 @@
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<h1>Willkommen zu meinem ersten Webprojekt!</h1>
+	<p:tabMenu activeIndex="#{param.i}">
+    <p:menuitem value="Overview" outcome="/login" icon="ui-icon-star">
+        <f:param name="i" value="0" />
+    </p:menuitem>
+</p:tabMenu>
 </h:body>
 </html>
