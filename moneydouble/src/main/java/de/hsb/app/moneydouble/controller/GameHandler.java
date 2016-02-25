@@ -3,6 +3,7 @@ package de.hsb.app.moneydouble.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -59,22 +60,34 @@ public class GameHandler {
 	public void setNumber(Integer number) {
 		this.number = number;
 	}
+	
+	@PostConstruct
+	public void init(){
+		number = 2;
+	}
 
 	/**
 	 * @return Number between 0 and 14
 	 */
-	public int play(){
+	public void play(){
+		System.out.println("play");
 		number = (int) (Math.random() * (MAX_NUMBER + 1));
 		RouletteColor result = RouletteColor.getColorFromNumber(number);
 		
 		Benutzer user = loginHandler.getUser();
 		
-		Spielzug spielzug = new Spielzug(user, betAmount, guess, result, new Date());
-		em.persist(spielzug);
+		try {
+			utx.begin();
+			Spielzug spielzug = new Spielzug(user, betAmount, guess, result, new Date());
+			em.persist(spielzug);
+			utx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		
 		debugSpielzuege();
-		
-		return number;
 	}
 	
 	private void debugSpielzuege(){

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Spielzug implements Serializable {
@@ -21,6 +23,8 @@ public class Spielzug implements Serializable {
 	private Integer moneyAmount;
 	private RouletteColor guess;
 	private RouletteColor result;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 	
 	public Spielzug(){
