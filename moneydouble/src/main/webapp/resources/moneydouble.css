@@ -31,6 +31,15 @@
 	width: 100%; 
 }
 
+#pointer{
+	width:3px;
+	background:#ff0;
+	position:absolute;
+	left:50%;
+	top:0px;
+	height:100%
+}
+
 #tech-slideshow {
     height: 200px;
     position: relative;

@@ -4,13 +4,34 @@
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <script type="text/javascript" src="resources/roll.js"></script>	
+    <style>
+				#case{
+				    border:1px solid transparent;
+				    border-radius: 4px;
+				    max-width: 3000px; 
+				    height: 200px; 
+				    background-image: url("resources/images/slide1.png");
+				    background-repeat: no-repeat;
+				    background-position: 0px 0px;
+				    position: relative;
+				    margin:0px auto;
+				}	
+	</style>
 		<h:form>
 			<p:focus for="text" />
 			<p:inputText id="text" value="#{gameHandler.number}" />
+			
     		<p:commandButton value="Run" id="run" update="text" action="#{gameHandler.play()}" />
+    		<p:commandButton value="Run2" id="run2" onclick="spin(7);" />
     		
     		<div id="tech-slideshow">
 		   		<div id="tech-slideshow-1"/>
+			</div>
+			
+			
+			<div id="case" style="margin-bottom: 5px;">
+				<div id="pointer"/>
 			</div>
 		</h:form>
 </ui:composition>
