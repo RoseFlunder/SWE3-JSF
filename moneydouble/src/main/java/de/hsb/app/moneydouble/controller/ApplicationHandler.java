@@ -32,7 +32,7 @@ public class ApplicationHandler {
 	@PostConstruct
 	public void init(){
 		try {
-			TypedQuery<Benutzer> q = em.createNamedQuery("Benutzer.findAdminUser", Benutzer.class);
+			TypedQuery<Benutzer> q = em.createNamedQuery(Benutzer.FIND_ADMIN_USER, Benutzer.class);
 			q.getSingleResult();
 			System.out.println("admin user already exists");
 		} catch (NoResultException e) {

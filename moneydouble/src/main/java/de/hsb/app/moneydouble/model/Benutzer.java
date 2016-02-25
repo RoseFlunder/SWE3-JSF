@@ -9,14 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@NamedQuery(name="Benutzer.findAdminUser", query="select b from Benutzer b where b.username='admin'")
+@NamedQueries({
+	@NamedQuery(name=Benutzer.FIND_ADMIN_USER, query="select b from Benutzer b where b.username='admin'"),
+	@NamedQuery(name=Benutzer.FIND_USER_BY_NAME, query="select b from Benutzer b where b.username= :username")
+})
 public class Benutzer implements Serializable {
+	
+	public static final String FIND_ADMIN_USER = "findAdminUser";
+	public static final String FIND_USER_BY_NAME = "findUserByName";
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,9 +31,11 @@ public class Benutzer implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	@Column(unique=true)
+	@Column(unique=true, nullable=false)
 	private String username;
+	@Column(unique=true, nullable=false)
 	private String password;
+	@Column(nullable=false)
 	private Rolle rolle;
 	
 	@Temporal(TemporalType.DATE)
