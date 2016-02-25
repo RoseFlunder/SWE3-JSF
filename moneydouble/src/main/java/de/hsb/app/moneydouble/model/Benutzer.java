@@ -31,11 +31,13 @@ public class Benutzer implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Kreditkarte kreditkarte;
 	
+	private Integer money;
+	
 	public Benutzer(){
 		
 	}
 	
-	public Benutzer(String username, String password, Rolle rolle, Date geburtsdatum) {
+	public Benutzer(String username, String password, Rolle rolle, Date geburtsdatum, Integer money) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -81,6 +83,14 @@ public class Benutzer implements Serializable {
 
 	public void setRolle(Rolle rolle) {
 		this.rolle = rolle;
+	}
+
+	public Integer getMoney() {
+		return money;
+	}
+
+	public void setMoney(Integer money) {
+		this.money = money;
 	}
 	
 
