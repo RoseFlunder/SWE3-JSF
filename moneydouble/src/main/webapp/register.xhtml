@@ -1,0 +1,33 @@
+<?xml version="1.0"	encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css"/>
+	<title>Moneydouble Login</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:messages id="msgs" showDetail="true"/>
+		<p:focus for="user" />
+		<p:panelGrid columns="2">
+			
+			<p:outputLabel value="Benutzername:" for="user" />
+			<h:panelGroup>
+				<p:inputText id="user" required="true" value="#{loginHandler.username}" requiredMessage="Benutzername fehlt">
+					<p:ajax event="blur" listener="#{loginHandler.checkUsernameAvailable()}" update="msgs btnRegister"/>
+				</p:inputText>
+				<p:message for="user" display="icon" />
+			</h:panelGroup>
+			
+			<p:outputLabel value="Password:" for="password" />
+			<h:panelGroup>
+				<p:inputText id="password" required="true" value="#{loginHandler.password}" requiredMessage="Passwort fehlt"/>
+				<h:message for="password" styleClass="message" />
+			</h:panelGroup>
+		</p:panelGrid>
+		
+		<p:commandButton id="btnRegister" action="#{loginHandler.register()}" value="Register" update="msgs" disabled="#{facesContext.validationFailed}"/>
+	</h:form>
+</h:body>
+</html>
