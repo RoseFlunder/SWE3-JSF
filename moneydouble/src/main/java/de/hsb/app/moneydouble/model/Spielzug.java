@@ -9,10 +9,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name="Spielzug.findAll", query="SELECT s FROM Spielzug s"),
+	@NamedQuery(name="Spielzug.findByUser", query="SELECT s FROM Spielzug s WHERE s.user = :user")
+})
 public class Spielzug implements Serializable {
 
 	private static final long serialVersionUID = 1L;

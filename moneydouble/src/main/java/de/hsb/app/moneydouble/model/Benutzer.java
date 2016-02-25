@@ -4,15 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQuery(name="Benutzer.findAdminUser", query="select b from Benutzer b where b.username='admin'")
 public class Benutzer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +24,7 @@ public class Benutzer implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
+	@Column(unique=true)
 	private String username;
 	private String password;
 	private Rolle rolle;

@@ -90,17 +90,9 @@ public class GameHandler {
 		debugSpielzuege();
 	}
 	
-	private void debugSpielzuege(){
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Spielzug> cq = cb.createQuery(Spielzug.class);
-		Root<Spielzug> spielzug = cq.from(Spielzug.class);
-		cq.select(spielzug);
-		
-		TypedQuery<Spielzug> q = em.createQuery(cq);
+	private void debugSpielzuege(){		
+		TypedQuery<Spielzug> q = em.createNamedQuery("Spielzug.findAll", Spielzug.class);
 		List<Spielzug> resultList = q.getResultList();
-		
-//		Query query = em.createQuery("select s from spielzug s");
-//		List<Spielzug> resultList = query.getResultList();
 		
 		for (Spielzug s : resultList) {
 			System.out.println(s);

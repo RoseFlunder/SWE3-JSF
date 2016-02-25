@@ -26,7 +26,7 @@
     <datasource jndi-name="java:jboss/datasources/moneydoubleDS"
         pool-name="moneydouble" enabled="true"
         use-java-context="true">
-        <connection-url>jdbc:h2:mem:moneydouble;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url>
+        <connection-url>jdbc:h2:file:~/data/moneydouble;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1</connection-url>
         <driver>h2</driver>
         <security>
             <user-name>sa</user-name>
