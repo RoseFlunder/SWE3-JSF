@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -14,8 +13,6 @@ import javax.faces.event.ComponentSystemEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.transaction.RollbackException;
 import javax.transaction.UserTransaction;
 
 import de.hsb.app.moneydouble.model.Benutzer;
@@ -53,15 +50,6 @@ public class LoginHandler implements Serializable {
 		}
 
 		return null;
-	}
-
-	public void checkUsernameAvailable() {
-		TypedQuery<Benutzer> q = em.createNamedQuery(Benutzer.FIND_USER_BY_NAME, Benutzer.class);
-		q.setParameter("username", username);
-
-		if (!q.getResultList().isEmpty())
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Username is already in use"));
 	}
 
 	public String login() {
