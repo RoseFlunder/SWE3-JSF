@@ -69,7 +69,7 @@ public class Spielzug implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Spielzug [id=" + id + ", user=" + user + ", moneyAmount=" + moneyAmount + ", guess=" + guess
+		return "Spielzug [id=" + id + ", user=" + user.getUsername() + ", moneyAmount=" + moneyAmount + ", guess=" + guess
 				+ ", result=" + result + ", timestamp=" + timestamp + "]";
 	}
 

@@ -10,6 +10,10 @@ import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
 import de.hsb.app.moneydouble.model.Benutzer;
@@ -66,11 +70,19 @@ public class GameHandler {
 	}
 	
 	private void debugSpielzuege(){
-		Query query = em.createQuery("select s from spielzug s");
-		List<Spielzug> resultList = query.getResultList();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Spielzug> cq = cb.createQuery(Spielzug.class);
+		Root<Spielzug> spielzug = cq.from(Spielzug.class);
+		cq.select(spielzug);
 		
-		for (Spielzug spielzug : resultList) {
-			System.out.println(spielzug);
+		TypedQuery<Spielzug> q = em.createQuery(cq);
+		List<Spielzug> resultList = q.getResultList();
+		
+//		Query query = em.createQuery("select s from spielzug s");
+//		List<Spielzug> resultList = query.getResultList();
+		
+		for (Spielzug s : resultList) {
+			System.out.println(s);
 		}
 	}
 
