@@ -1,15 +1,56 @@
 @CHARSET "ISO-8859-1";
 
-.message {
+.message 
+{
 	color: red, font-size: 14px;
 }
 
-[class*='col-'] {
+[class*='col-'] 
+{
 	float: left;
 	min-height: 64px; 
 	width: 16.66%; 
 	padding: 2px;
 }
 
-.col-1{ width: 220px; }
-.col-2{ width: 100%; }
+.col-1
+{
+	width: 220px;
+}
+.col-2
+{ 
+	width: 100%; 
+}
+
+#tech-slideshow {
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+#tech-slideshow > div {
+    height: 200px;
+    width: 3000px;
+    background: url(images/slide.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    
+    -moz-transition:  opacity 0.5s ease-out; 
+       -o-transition: opacity 0.5s ease-out; 
+  -webkit-transition: opacity 0.5s ease-out; 
+      -ms-transition: opacity 0.5s ease-out; 
+
+    -webkit-animation: moveSlideshow 60s linear infinite;
+    -moz-animation:    moveSlideshow 60s linear infinite;
+    
+}
+
+@-webkit-keyframes moveSlideshow {
+    0% { left: 0; }
+    100% { left: -1684px; }
+}
+@-moz-keyframes moveSlideshow {
+    0% { left: 0; }
+    100% { left: -1684px; }
+}
