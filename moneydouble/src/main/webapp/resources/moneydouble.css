@@ -3,3 +3,13 @@
 .message {
 	color: red, font-size: 14px;
 }
+
+[class*='col-'] {
+	float: left;
+	min-height: 64px; 
+	width: 16.66%; 
+	padding: 2px;
+}
+
+.col-1{ width: 220px; }
+.col-2{ width: 100%; }
