@@ -154,14 +154,6 @@
             <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
-            <scope>compile</scope>
-            <classifier>sources</classifier>
-            <version>2.2.8</version>
-        </dependency>
 
         <!-- Now we declare any tools needed -->
 

@@ -67,4 +67,10 @@ public class Spielzug implements Serializable {
 		this.timestamp = timestamp;
 	}
 
+	@Override
+	public String toString() {
+		return "Spielzug [id=" + id + ", user=" + user + ", moneyAmount=" + moneyAmount + ", guess=" + guess
+				+ ", result=" + result + ", timestamp=" + timestamp + "]";
+	}
+
 }

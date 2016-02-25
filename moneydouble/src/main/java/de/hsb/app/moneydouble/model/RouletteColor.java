@@ -13,5 +13,10 @@ public enum RouletteColor {
 			return RED;
 		return BLACK;
 	}
+	
+	@Override
+	public String toString(){
+		return this.name();
+	}
 
 }
