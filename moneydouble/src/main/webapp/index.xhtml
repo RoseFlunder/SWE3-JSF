@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
 	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css"/>
 	<title>My First Webproject</title>
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	
 		<div class="ui-grid ui-grid-responsive">
 			<div class="ui-grid-row">
 				<div class="col-1">
@@ -34,5 +34,8 @@
 				</div>
     		</div>
 		</div>
+		<ui:include src="/roulette.xhtml" />
+        <!--<div id="content"><ui:insert name="content">Default content</ui:insert></div>-->
+        <div id="footer">Footer</div>
 </h:body>
 </html>

@@ -52,6 +52,14 @@ public class GameHandler {
 		this.loginHandler = loginHandler;
 	}
 
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
 	/**
 	 * @return Number between 0 and 14
 	 */
