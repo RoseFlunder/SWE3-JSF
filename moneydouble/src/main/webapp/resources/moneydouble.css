@@ -5,6 +5,15 @@
 	color: red, font-size: 14px;
 }
 
+.loss {
+	background-color: #FA9078;
+}
+
+.win {
+	background-color: #A0FAAA;
+}
+
+
 [class*='col-'] 
 {
 	float: left;

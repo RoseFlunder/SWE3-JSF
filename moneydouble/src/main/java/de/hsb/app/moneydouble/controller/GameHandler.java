@@ -10,11 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
 import de.hsb.app.moneydouble.model.Benutzer;
@@ -63,7 +59,8 @@ public class GameHandler {
 	
 	@PostConstruct
 	public void init(){
-		number = 2;
+		betAmount =  10;
+		guess = RouletteColor.RED;
 	}
 
 	/**
@@ -84,9 +81,6 @@ public class GameHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 		debugSpielzuege();
 	}
 	

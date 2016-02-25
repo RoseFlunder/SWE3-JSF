@@ -1,0 +1,32 @@
+<?xml version="1.0"	encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css" />
+	<title>Statistic</title>
+</h:head>
+<h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<p:dataTable var="zug" value="#{statisticHandler.spielzuege}"
+		rowStyleClass="#{zug.guess eq zug.result ? 'loss' : 'win'}">
+		<p:column headerText="Guess">
+			<h:outputText value="#{zug.guess}" />
+		</p:column>
+
+		<p:column headerText="Result">
+			<h:outputText value="#{zug.result}" />
+		</p:column>
+
+		<p:column headerText="Amount">
+			<h:outputText value="#{zug.moneyAmount}" />
+		</p:column>
+
+		<p:column headerText="Timestamp">
+			<h:outputText value="#{zug.timestamp}" />
+		</p:column>
+	</p:dataTable>
+</h:body>
+</html>
