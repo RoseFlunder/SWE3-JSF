@@ -17,19 +17,17 @@ var SCROLL = true;
 var LANG = 1;
 var IGNORE = [];
 
-var sounds_rolling = new Audio('resources/sounds/rolling.wav');
-sounds_rolling.volume = 0.5;
+var sounds_rolling = new Audio('resources/sounds/rolling.mp3');
+var sounds_finish = new Audio('resources/sounds/tone.mp3');
 function play_sound(x){
-	var conf = $("#settings_sounds").is(":checked");
-	if(conf){
-		if(x=="roll"){
-			sounds_rolling.play();
-		}		
-	}		
+	if(x=="roll"){
+		sounds_rolling.play();
+	} else if (x=="finish"){
+		sounds_finish.play();
+	}			
 }
 
 function snapRender(x){
-	
 	if(isMoving){
 		return;
 	}else if(typeof x === 'undefined'){
@@ -81,6 +79,7 @@ function spin(m){
     },tf);
     render();
     snapRender();
+    
 }
 function d_mod(vi,t){
     return vi*(Math.pow(R,t)-1)/LOGR;
@@ -104,7 +103,8 @@ function render(){
         requestAnimationFrame(render);
     }else{
     	snapX = deg;
-        isMoving = false;           
+        isMoving = false;
+        updateText();
     }
 }
 function view(offset){

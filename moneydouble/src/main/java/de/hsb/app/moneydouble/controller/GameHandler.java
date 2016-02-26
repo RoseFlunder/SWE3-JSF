@@ -1,7 +1,7 @@
 package de.hsb.app.moneydouble.controller;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -10,8 +10,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
+
+import org.primefaces.context.RequestContext;
 
 import de.hsb.app.moneydouble.model.Benutzer;
 import de.hsb.app.moneydouble.model.RouletteColor;
@@ -19,8 +20,10 @@ import de.hsb.app.moneydouble.model.Spielzug;
 
 @ManagedBean
 @SessionScoped
-public class GameHandler {
-	
+public class GameHandler implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final int MAX_NUMBER = 14;
 	
 	@ManagedProperty("#{applicationHandler}")
@@ -41,6 +44,10 @@ public class GameHandler {
 	
 	private Integer number;
 	
+	public GameHandler(){
+		
+	}
+	
 	public void setApplication(ApplicationHandler application) {
 		this.application = application;
 	}
@@ -59,6 +66,7 @@ public class GameHandler {
 	
 	@PostConstruct
 	public void init(){
+		System.out.println("postconstruct");
 		betAmount =  10;
 		guess = RouletteColor.RED;
 	}
@@ -68,7 +76,7 @@ public class GameHandler {
 	 */
 	public void play(){
 		System.out.println("play");
-		number = (int) (Math.random() * (MAX_NUMBER + 1));
+		setNumber((int) (Math.random() * (MAX_NUMBER + 1)));
 		RouletteColor result = RouletteColor.getColorFromNumber(number);
 		
 		Benutzer user = loginHandler.getUser();
@@ -81,16 +89,12 @@ public class GameHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		debugSpielzuege();
+		test();
+		RequestContext.getCurrentInstance().execute("spin(" + getNumber() + ")");
 	}
 	
-	private void debugSpielzuege(){		
-		TypedQuery<Spielzug> q = em.createNamedQuery("Spielzug.findAll", Spielzug.class);
-		List<Spielzug> resultList = q.getResultList();
-		
-		for (Spielzug s : resultList) {
-			System.out.println(s);
-		}
+	public void test(){
+		System.out.println("test " + getNumber());
 	}
 
 	public RouletteColor getGuess() {

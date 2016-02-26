@@ -19,10 +19,11 @@
 				}	
 	</style>
 		<h:form>
-			<p:focus for="text" />
-			<p:inputText id="text" value="#{gameHandler.number}" />
+			<p:focus for="result" />
+			<p:outputLabel id="result" value="#{gameHandler.number}" />
+			<p:remoteCommand name="updateText" update="result" actionListener="#{gameHandler.test()}"/>
 			
-    		<p:commandButton value="Run" id="run" update="text" action="#{gameHandler.play()}" />
+    		<p:commandButton value="Run" id="run" action="#{gameHandler.play()}" />
     		<p:commandButton value="Run2" id="run2" onclick="spin(7);" />
     		
     		<div id="tech-slideshow">
