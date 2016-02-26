@@ -23,10 +23,10 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	<p:tabView orientation="left">
+	<p:tabView orientation="left" >
 		<p:tab title="Bet history">
 			<p:dataTable var="zug" value="#{statisticHandler.spielzuege}"
-				rowStyleClass="#{zug.guess eq zug.result ? 'win' : 'loss'}">
+				rowStyleClass="#{zug.guess eq zug.result ? 'win' : 'loss'}" reflow="true">
 				<p:column headerText="Guess">
 					<h:outputText value="#{zug.guess}" />
 				</p:column>
