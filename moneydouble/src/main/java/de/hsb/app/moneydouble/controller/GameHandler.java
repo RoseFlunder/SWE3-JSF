@@ -38,8 +38,6 @@ public class GameHandler implements Serializable {
 	@Resource
 	private UserTransaction utx;
 	
-	private RouletteColor guess;
-	
 	private Integer betAmount;
 	
 	private Integer number;
@@ -68,13 +66,12 @@ public class GameHandler implements Serializable {
 	public void init(){
 		System.out.println("postconstruct");
 		betAmount =  10;
-		guess = RouletteColor.RED;
 	}
 
 	/**
 	 * @return Number between 0 and 14
 	 */
-	public void play(){
+	public void play(RouletteColor guess){
 		System.out.println("play");
 		setNumber((int) (Math.random() * (MAX_NUMBER + 1)));
 		RouletteColor result = RouletteColor.getColorFromNumber(number);
@@ -95,14 +92,6 @@ public class GameHandler implements Serializable {
 	
 	public void test(){
 		System.out.println("test " + getNumber());
-	}
-
-	public RouletteColor getGuess() {
-		return guess;
-	}
-
-	public void setGuess(RouletteColor guess) {
-		this.guess = guess;
 	}
 
 	public Integer getBetAmount() {

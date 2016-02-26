@@ -5,8 +5,11 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
+	<f:facet name="first">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</f:facet>
 	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css"/>
-	<title>My First Webproject</title>
+	<title>Moneydouble</title>
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
@@ -30,11 +33,8 @@
 				                <h:outputText value="Francis Ford Coppola's legendary..." />
 				            </h:panelGrid>
 				        </p:tab>
-				        <p:tab title="Overview">
-				            <h:panelGrid columns="2" cellpadding="10">
-				                <!-- <p:graphicImage name="demo/images/godfather/godfather3.jpg" />-->
-				                <h:outputText value="After a break of more than 15 years..." />
-				            </h:panelGrid>
+				        <p:tab title="Statistic">
+				            <ui:include src="/statistic.xhtml" />
 				        </p:tab>
 				    </p:tabView>
 				</div>

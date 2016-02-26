@@ -72,3 +72,15 @@
     0% { left: 0; }
     100% { left: -1684px; }
 }
+
+#case{
+    border:1px solid transparent;
+    border-radius: 4px;
+    max-width: 3000px; 
+    height: 200px; 
+    background-image: url("resources/images/slide1.png");
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    position: relative;
+    margin:0px auto;
+}	

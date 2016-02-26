@@ -16,12 +16,18 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Spielzug.findAll", query="SELECT s FROM Spielzug s"),
-	@NamedQuery(name="Spielzug.findByUser", query="SELECT s FROM Spielzug s WHERE s.user = :user")
+	@NamedQuery(name=Spielzug.FIND_ALL, query="SELECT s FROM Spielzug s"),
+	@NamedQuery(name=Spielzug.FIND_BY_USER, query="SELECT s FROM Spielzug s WHERE s.user = :user"),
+	@NamedQuery(name=Spielzug.COUNT_GUESS_DISTRIBUTION_BY_USER, query="SELECT s.guess, COUNT(s.guess) FROM Spielzug s "
+			+ "WHERE s.user = :user AND s.guess is not null GROUP BY s.guess ORDER BY s.guess")
 })
 public class Spielzug implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String FIND_ALL = "Spielzug.findAll";
+	public static final String FIND_BY_USER = "Spielzug.findByUser";
+	public static final String COUNT_GUESS_DISTRIBUTION_BY_USER = "Spielzug.countGuessDistributionByUser";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
