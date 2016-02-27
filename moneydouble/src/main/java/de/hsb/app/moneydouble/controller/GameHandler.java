@@ -2,6 +2,8 @@ package de.hsb.app.moneydouble.controller;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import javax.transaction.UserTransaction;
 import org.primefaces.context.RequestContext;
 
 import de.hsb.app.moneydouble.model.Benutzer;
+import de.hsb.app.moneydouble.model.RollResult;
 import de.hsb.app.moneydouble.model.RouletteColor;
 import de.hsb.app.moneydouble.model.Spielzug;
 
@@ -42,6 +45,8 @@ public class GameHandler implements Serializable {
 	
 	private Integer number;
 	
+	private Queue<RollResult> lastRolls;
+	
 	public GameHandler(){
 		
 	}
@@ -64,8 +69,12 @@ public class GameHandler implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		System.out.println("postconstruct");
+		lastRolls = new LinkedList<>();
 		betAmount =  10;
+	}
+
+	public Queue<RollResult> getLastRolls() {
+		return lastRolls;
 	}
 
 	/**
@@ -76,22 +85,22 @@ public class GameHandler implements Serializable {
 		setNumber((int) (Math.random() * (MAX_NUMBER + 1)));
 		RouletteColor result = RouletteColor.getColorFromNumber(number);
 		
-		Benutzer user = loginHandler.getUser();
+		RollResult rr = new RollResult(result, number);
+		if (lastRolls.size() >= 10)
+			lastRolls.poll();
+		lastRolls.offer(rr);
 		
 		try {
 			utx.begin();
+			Benutzer user = loginHandler.getUser();
 			Spielzug spielzug = new Spielzug(user, betAmount, guess, result, new Date());
 			em.persist(spielzug);
 			utx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		test();
+		
 		RequestContext.getCurrentInstance().execute("spin(" + getNumber() + ")");
-	}
-	
-	public void test(){
-		System.out.println("test " + getNumber());
 	}
 
 	public Integer getBetAmount() {

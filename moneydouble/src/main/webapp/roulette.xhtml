@@ -8,7 +8,7 @@
 	<h:form>
 		<p:focus for="result" />
 		<p:outputLabel id="result" value="#{gameHandler.number}" />
-		<p:remoteCommand name="updateText" update="result" actionListener="#{gameHandler.test()}"/>
+		<p:remoteCommand name="updateText" update="result rollHistory"/>
 		
    		
    		<!-- <p:commandButton value="Run2" id="run2" onclick="spin(7);" />
@@ -35,6 +35,15 @@
    			</div>
    		</div>
 		
+		<p:dataTable id="rollHistory" var="rollResult" value="#{gameHandler.lastRolls}" reflow="true">
+				<p:column headerText="Color">
+					<h:outputText value="#{rollResult.color}" />
+				</p:column>
+
+				<p:column headerText="Number">
+					<h:outputText value="#{rollResult.number}" />
+				</p:column>
+		</p:dataTable>
 		
 	</h:form>
 </ui:composition>
