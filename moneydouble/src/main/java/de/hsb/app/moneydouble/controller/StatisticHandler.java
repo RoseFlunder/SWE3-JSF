@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 import org.primefaces.model.chart.PieChartModel;
 
 import de.hsb.app.moneydouble.model.Benutzer;
+import de.hsb.app.moneydouble.model.RouletteColor;
 import de.hsb.app.moneydouble.model.Spielzug;
 
 @ManagedBean
@@ -48,17 +49,23 @@ public class StatisticHandler implements Serializable {
 		userPieModel = new PieChartModel();
 		userPieModel.setTitle("My guesses");
 		userPieModel.setShowDataLabels(true);
-		userPieModel.setSeriesColors("515557,3FBA6C,F2463D");
+		
+		
+		String seriesColors = new String();
 		
 		Query q = em.createNamedQuery(Spielzug.COUNT_GUESS_DISTRIBUTION_BY_USER);
 		q.setParameter("user", b);
 		@SuppressWarnings("unchecked")
 		List<Object[]> resultList = q.getResultList();
 		for (Object[] line : resultList) {
-			userPieModel.set(line[0].toString(), (Number) line[1]);
+			RouletteColor color = (RouletteColor) line[0];
+			userPieModel.set(color.toString(), (Number) line[1]);
+			seriesColors += (color.getStatisticColor() + ",");
 		}
 		
-		System.out.println(resultList.size());
+		seriesColors = seriesColors.substring(0, seriesColors.length() - 1);
+		System.out.println(seriesColors);
+		userPieModel.setSeriesColors(seriesColors);
 		
 		
 	}
