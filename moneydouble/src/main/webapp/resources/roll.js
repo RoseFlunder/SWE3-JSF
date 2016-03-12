@@ -2,8 +2,9 @@
 
 var CASEW = 3000;
 
-//physics contants
+// physics contants
 var snapX = 0;
+var randomNum = 0.0;
 var R = 0.999;
 var S = 0.01;
 var tf = 0;
@@ -12,114 +13,110 @@ var animStart = 0;
 var isMoving = false;
 var LOGR = Math.log(R);
 
-//settings
+// settings
 var SCROLL = true;
 var LANG = 1;
 var IGNORE = [];
 
 var sounds_rolling = new Audio('resources/sounds/rolling.mp3');
 var sounds_finish = new Audio('resources/sounds/tone.mp3');
-function play_sound(x){
-	if(x=="roll"){
+function play_sound(x) {
+	if (x == "roll") {
 		sounds_rolling.play();
-	} else if (x=="finish"){
+	} else if (x == "finish") {
 		sounds_finish.play();
-	}			
+	}
 }
 
-function snapRender(x){
-	if(isMoving){
+function snapRender(x) {
+	CASEW = $("#case").width();
+	if (isMoving) {
 		return;
-	}else if(typeof x === 'undefined'){
-		view(snapX);					
-	}else{
-		var order = [1,14,2,13,3,12,4,0,11,5,10,6,9,7,8];
+	} else if (typeof x === 'undefined') {
+		view(snapX);
+	} else {
+		var order = [ 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8 ];
 		var index = 0;
-		for(var i=0;i<order.length;i++){
-			if(x==order[i]){
+		for (var i = 0; i < order.length; i++) {
+			if (x == order[i]) {
 				index = i;
 				break;
 			}
-		}  
-		var max = 100;
-		var min = -100;
-		var w = Math.floor((max-min+1)+min);
-		
-		var dist = index*200 + 100 + w;  
-		dist += CASEW*5;
+		}
+		var w = Math.floor((randomNum * 201) - 100);
+
+		var dist = (index * 200) + 100 + w;
+		dist += 3000 * 5;
 		snapX = dist;
 		view(snapX);
 	}
 }
-function spin(m){
-	CASEW = $("#case").width();
+function spin(m) {
+	randomNum = Math.random(); 
 	var x = m;
 	play_sound("roll");
-	var order = [1,14,2,13,3,12,4,0,11,5,10,6,9,7,8];
+	var order = [ 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8 ];
 	var index = 0;
-	for(var i=0;i<order.length;i++){
-		if(x==order[i]){
+	for (var i = 0; i < order.length; i++) {
+		if (x == order[i]) {
 			index = i;
 			break;
 		}
-	}  
-	var max = 100;
-	var min = -100;
-	var w = Math.floor((max-min+1)+min);
-	
-	var dist = index*200 + 100 + w;  
-	dist += CASEW*5;                
-    animStart = new Date().getTime();                  
-    vi = getVi(dist);
-    tf = getTf(vi);
-    isMoving = true;
-    
-    setTimeout(function(){
-    	finishRoll();
-    },tf);
-    render();
-    snapRender();
-    
+	}
+	var w = Math.floor((randomNum * 201) - 100);
+
+	var dist = (index * 200) + 100 + w;
+	dist += 3000 * 5;
+	animStart = new Date().getTime();
+	vi = getVi(dist);
+	tf = getTf(vi);
+	isMoving = true;
+
+	setTimeout(function() {
+		finishRoll();
+	}, tf);
+	render();
+	snapRender();
 }
-function d_mod(vi,t){
-    return vi*(Math.pow(R,t)-1)/LOGR;
+function d_mod(vi, t) {
+	return vi * (Math.pow(R, t) - 1) / LOGR;
 }
-function getTf(vi){
-    return (Math.log(S)-Math.log(vi))/LOGR;
+function getTf(vi) {
+	return (Math.log(S) - Math.log(vi)) / LOGR;
 }
-function getVi(df){
-    return S-df*LOGR;
+function getVi(df) {
+	return S - df * LOGR;
 }
-function v(vi,t){
-    return vi*Math.pow(R,t);
+function v(vi, t) {
+	return vi * Math.pow(R, t);
 }
-function render(){
-    var t = new Date().getTime() - animStart;
-    if(t>tf)
-        t = tf;
-    var deg = d_mod(vi,t);
-    view(deg);
-    if(t<tf){                   
-        requestAnimationFrame(render);
-    }else{
-    	snapX = deg;
-        isMoving = false;
-        updateText();
-    }
+function render() {
+	var t = new Date().getTime() - animStart;
+	if (t > tf)
+		t = tf;
+	var deg = d_mod(vi, t);
+	view(deg);
+	if (t < tf) {
+		requestAnimationFrame(render);
+	} else {
+		snapX = deg;
+		isMoving = false;
+		updateText();
+	}
 }
-function view(offset){
-	offset = -((offset+CASEW-CASEW/2)%CASEW);
-	$("#case").css("background-position",offset+"px 0px");   
+function view(offset) {
+	offset = -((offset + 3000 - CASEW / 2) % 3000);
+	$("#case").css("background-position", offset + "px 0px");
 }
 
-function finishRoll(){
+function finishRoll() {
 	play_sound("finish");
 }
 
-$(document).ready(function(){
-	$(window).resize(function(){
-		snapRender();
-	});
+window.addEventListener('resize', function(event) {
+	snapRender();
 });
 
-	
+
+
+

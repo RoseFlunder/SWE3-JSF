@@ -4,42 +4,77 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<h:outputStylesheet library="css" name="moneydouble.css"  />
+<script type="text/javascript" src="resources/roll.js"/>
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	</f:facet>
-	<h:outputStylesheet library="css" name="moneydouble.css"  />
 	<title>Moneydouble</title>
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-		<div class="ui-grid ui-grid-responsive">
-			<div class="ui-grid-row">
-				<div class="col-1">
-					<p:graphicImage id="home"
-						value="resources/images/logo.png"
-						width="220"
-						height="64">
-					</p:graphicImage>
-				</div>
-				<div class="col-2">
-					<p:tabView>
-				        <p:tab title="Home">
-				            <ui:include src="/roulette.xhtml" />
-				        </p:tab>
-				        <p:tab title="Money">
-				            <h:panelGrid columns="2" cellpadding="10">
-				                <!-- <p:graphicImage name="demo/images/godfather/godfather2.jpg" />-->
-				                <h:outputText value="Francis Ford Coppola's legendary..." />
-				            </h:panelGrid>
-				        </p:tab>
-				        <p:tab title="Statistic">
-				            <ui:include src="/statistic.xhtml" />
-				        </p:tab>
-				    </p:tabView>
-				</div>
-    		</div>
+	<nav class="navbar navbar-default navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/index.xhtml">
+					<img border="0" alt="MoneyDouble" src="resources/images/logo.png" width="220" height="64"/>
+				</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/moneydouble/index.xhtml">Home</a></li>
+				<li><a href="/moneydouble/statistic.xhtml">Statistik</a></li>
+				<li><a href="#">Page 2</a></li>
+				<li><a href="#">Page 3</a></li>
+				<li><a href="#">Page 4</a></li>
+			</ul>
 		</div>
-        <div id="footer">Footer</div>
+	</nav>
+	
+	<h:form>
+		<p:focus for="result" />
+		<p:outputLabel id="result" value="#{gameHandler.number}" />
+		<p:remoteCommand name="updateText" update="result rollHistory"/>
+		
+		<div id="case" style="margin-bottom: 5px;">
+			<div id="pointer"/>
+		</div>
+		
+		<p:panel header="Money">
+        	<h:panelGrid columns="2" cellpadding="10">
+	            <p:outputLabel for="geld" value="Geld:" />   
+	            <p:inputText id="geld" value="#" required="true" />  
+        	</h:panelGrid>
+    	</p:panel>
+    	
+    	<p:panel header="Setzen">
+        	<div class="ui-grid ui-grid-responsive">
+	   			<div class="ui-grid-row">
+	   				<div class="ui-grid-col-4">
+	   					<p:commandButton value="1-7" style="color:#FF0000;width:100%;height:100px;font-size:60px;" action="#{gameHandler.play('RED')}" />
+	   				</div>
+	   				<div class="ui-grid-col-4">
+	   					<p:commandButton value="0" style="color:#00FF00;width:100%;height:100px;font-size:60px;" action="#{gameHandler.play('GREEN')}" />
+	   				</div>
+	   				<div class="ui-grid-col-4">
+	   					<p:commandButton value="8-14" style="color:#000000;width:100%;height:100px;font-size:60px;" action="#{gameHandler.play('BLACK')}" />
+	   				</div>
+	   			</div>
+   			</div>
+    	</p:panel>
+		
+		
+		
+		<p:dataTable id="rollHistory" var="rollResult" value="#{gameHandler.lastRolls}" reflow="true">
+				<p:column headerText="Color">
+					<h:outputText value="#{rollResult.color}" />
+				</p:column>
+
+				<p:column headerText="Number">
+					<h:outputText value="#{rollResult.number}" />
+				</p:column>
+		</p:dataTable>
+	</h:form>
 </h:body>
 </html>
