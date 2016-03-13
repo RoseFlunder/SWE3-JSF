@@ -91,4 +91,14 @@
     background-position: 0px 0px;
     position: relative;
     margin:0px auto;
-}	
+}
+
+.rollHistoryList .ui-datalist-data{
+   overflow:auto;
+}
+
+.rollHistoryListItem{
+	display: inline;
+    float : left;
+    padding: 10px 10px;
+}

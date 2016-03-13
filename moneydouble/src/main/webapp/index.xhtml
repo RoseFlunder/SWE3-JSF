@@ -54,6 +54,7 @@
     	</p:panel>
     	
     	<p:panel header="Letzte Kugeln">
+    		<!-- 
         	<div class="well text-center">
         		<div id="past">
         			<img class='ball' src='resources/images/0.png' style='width:100px;height:100px;'/>
@@ -68,6 +69,12 @@
         			<img class='ball' src='resources/images/0.png' style='width:100px;height:100px;'/>
         		</div>
         	</div>
+        	-->
+        	
+        	<p:dataList itemType="none" styleClass="rollHistoryList" itemStyleClass="rollHistoryListItem"
+        				id="rollHistory" var="rollResult" value="#{gameHandler.lastRolls}">
+				<p:graphicImage name="images/#{rollResult.number}.png"/>
+			</p:dataList>
     	</p:panel>
     	
     	<p:panel header="Setzen">
@@ -85,16 +92,6 @@
 	   			</div>
    			</div>
     	</p:panel>
-		
-		<p:dataTable id="rollHistory" var="rollResult" value="#{gameHandler.lastRolls}" reflow="true">
-				<p:column headerText="Color">
-					<h:outputText value="#{rollResult.color}" />
-				</p:column>
-
-				<p:column headerText="Number">
-					<h:outputText value="#{rollResult.number}" />
-				</p:column>
-		</p:dataTable>
 	</h:form>
 </h:body>
 </html>
