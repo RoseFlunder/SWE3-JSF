@@ -5,7 +5,6 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-<h:outputStylesheet library="css" name="moneydouble.css"/>
 <script type="text/javascript" src="resources/roll.js"/>
 <h:head>
 	<f:facet name="first">
@@ -14,8 +13,29 @@
 	<title>Moneydouble</title>
 </h:head>
 <h:body>
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="moneydouble.css"/>
+	</f:facet>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<p:growl id="growl" showDetail="true" sticky="false"/>
+	<h:form id="navigation">
+		<p:menubar>
+			<p:menuitem>
+			    <h:link outcome="/index.jsf">
+			        <h:graphicImage name="images/logo.png" height="50" />
+			    </h:link>
+			</p:menuitem>
+			<p:menuitem styleClass="navigation-menuitem-selected" value="Home" url="/index.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="Statistic" url="/statistic.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="Money" url="/statistic.jsf" />
+			
+			<f:facet name="options">
+	            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+	        </f:facet>
+		</p:menubar>
+	</h:form>
+	
+	<!-- 
 	<nav class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -32,6 +52,7 @@
 			</ul>
 		</div>
 	</nav>
+	-->
 	
 	<h:form>
 		<p:focus for="geld" />

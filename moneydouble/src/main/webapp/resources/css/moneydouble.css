@@ -102,3 +102,30 @@
     float : left;
     padding: 10px 10px;
 }
+/*
+#navigation .ui-menu-list{
+	display: flex;
+}
+
+#navigation .ui-menu-item{
+	display: block;
+}
+*/
+
+.ui-menuitem-active{
+	color: inherit;
+}
+
+.ui-menu .ui-menuitem .ui-state-hover{
+	color: inherit;
+	background-color: inherit;
+}
+
+.navigation-menuitem .ui-menuitem-text {
+    font-size: 95%;
+}
+
+.navigation-menuitem-selected .ui-menuitem-text {
+    font-size: 100%;
+    font-weight: bolder;
+}
