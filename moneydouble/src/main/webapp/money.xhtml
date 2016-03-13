@@ -15,22 +15,22 @@
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	<nav class="navbar navbar-default navbar-static-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/moneydouble/index.xhtml">
-					<img border="0" alt="MoneyDouble" src="resources/images/logo.png" width="220" height="64"/>
-				</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li><a href="/moneydouble/index.xhtml">Home</a></li>
-				<li><a href="/moneydouble/statistic.xhtml">Statistik</a></li>
-				<li class="active"><a href="/moneydouble/money.xhtml">Money</a></li>
-				<li><a href="#">Page 3</a></li>
-				<li><a href="#">Page 4</a></li>
-			</ul>
-		</div>
-	</nav>
+	<h:form id="navigation">
+		<p:menubar>
+			<p:menuitem>
+			    <h:link outcome="/index.jsf">
+			        <h:graphicImage name="images/logo.png" height="50" />
+			    </h:link>
+			</p:menuitem>
+			<p:menuitem styleClass="navigation-menuitem" value="Home" url="/index.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="Statistic" url="/statistic.jsf" />
+			<p:menuitem styleClass="navigation-menuitem-selected" value="Money" url="/money.jsf" />
+			
+			<f:facet name="options">
+	            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+	        </f:facet>
+		</p:menubar>
+	</h:form>
 	
 	<h:outputLabel for="money" value="Balance:" />
 	<h:outputLabel id="money" value="#{loginHandler.user.money}" />
