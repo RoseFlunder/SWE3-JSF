@@ -28,33 +28,33 @@ public class GameHandler implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final int MAX_NUMBER = 14;
-	
+
 	@ManagedProperty("#{applicationHandler}")
 	private ApplicationHandler application;
-	
+
 	@ManagedProperty("#{loginHandler}")
 	private LoginHandler loginHandler;
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Resource
 	private UserTransaction utx;
-	
+
 	private Integer betAmount;
-	
+
 	private Integer number;
-	
+
 	private Queue<RollResult> lastRolls;
-	
-	public GameHandler(){
-		
+
+	public GameHandler() {
+
 	}
-	
+
 	public void setApplication(ApplicationHandler application) {
 		this.application = application;
 	}
-	
+
 	public void setLoginHandler(LoginHandler loginHandler) {
 		this.loginHandler = loginHandler;
 	}
@@ -66,11 +66,11 @@ public class GameHandler implements Serializable {
 	public void setNumber(Integer number) {
 		this.number = number;
 	}
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		lastRolls = new LinkedList<>();
-		betAmount =  10;
+		betAmount = 10;
 	}
 
 	public Queue<RollResult> getLastRolls() {
@@ -80,19 +80,20 @@ public class GameHandler implements Serializable {
 	/**
 	 * @return Number between 0 and 14
 	 */
-	public void play(RouletteColor guess){
+	public void play(RouletteColor guess) {
 		setNumber((int) (Math.random() * (MAX_NUMBER + 1)));
 		RouletteColor color = RouletteColor.getColorFromNumber(number);
-		
+
 		RollResult rr = new RollResult(color, number);
 		while (lastRolls.size() >= 10)
 			lastRolls.poll();
 		lastRolls.offer(rr);
-		
+
 		try {
 			utx.begin();
 			Benutzer user = loginHandler.getUser();
-			user.setMoney(user.getMoney() + (guess.equals(color) ? betAmount : -betAmount));	
+			user.setMoney(user.getMoney() + (guess.equals(color)
+					? (RouletteColor.GREEN.equals(color) ? betAmount * 14 : betAmount) : -betAmount));
 			System.out.println("Users money: " + user.getMoney());
 			Spielzug spielzug = new Spielzug(user, betAmount, guess, color, new Date());
 			em.persist(spielzug);
@@ -100,7 +101,7 @@ public class GameHandler implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		RequestContext.getCurrentInstance().execute("spin(" + getNumber() + ")");
 	}
 
