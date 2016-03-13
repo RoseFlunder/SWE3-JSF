@@ -73,7 +73,7 @@ function spin(m) {
 	isMoving = true;
 
 	setTimeout(function() {
-		finishRoll();
+		finishRoll(m);
 	}, tf);
 	render();
 	snapRender();
@@ -109,8 +109,66 @@ function view(offset) {
 	$("#case").css("background-position", offset + "px 0px");
 }
 
-function finishRoll() {
+function finishRoll(roll) {
 	play_sound("finish");
+	addBall(roll);
+}
+
+function addBall(roll){
+	var count = $("#last .ball").length;
+	if(count>=10){
+		$("#past .ball").first().remove();
+	}
+	switch(roll) {
+    case 0:
+    	$("#past").append("<img class='ball' src='resources/images/0.png' style='width:100px;height:100px;'/>");
+        break;
+    case 1:
+    	$("#past").append("<img class='ball' src='resources/images/1.png' style='width:100px;height:100px;'/>");
+        break;
+    case 2:
+    	$("#past").append("<img class='ball' src='resources/images/2.png' style='width:100px;height:100px;'/>");
+        break;
+    case 3:
+    	$("#past").append("<img class='ball' src='resources/images/3.png' style='width:100px;height:100px;'/>");
+        break;
+    case 4:
+    	$("#past").append("<img class='ball' src='resources/images/4.png' style='width:100px;height:100px;'/>");
+        break;
+    case 5:
+    	$("#past").append("<img class='ball' src='resources/images/5.png' style='width:100px;height:100px;'/>");
+        break;
+    case 6:
+    	$("#past").append("<img class='ball' src='resources/images/6.png' style='width:100px;height:100px;'/>");
+        break
+    case 7:
+    	$("#past").append("<img class='ball' src='resources/images/7.png' style='width:100px;height:100px;'/>");
+        break;
+    case 8:
+    	$("#past").append("<img class='ball' src='resources/images/8.png' style='width:100px;height:100px;'/>");
+        break;
+    case 9:
+    	$("#past").append("<img class='ball' src='resources/images/9.png' style='width:100px;height:100px;'/>");
+        break;
+    case 10:
+    	$("#past").append("<img class='ball' src='resources/images/10.png' style='width:100px;height:100px;'/>");
+        break;
+    case 11:
+    	$("#past").append("<img class='ball' src='resources/images/11.png' style='width:100px;height:100px;'/>");
+        break;
+    case 12:
+    	$("#past").append("<img class='ball' src='resources/images/12.png' style='width:100px;height:100px;'/>");
+        break;
+    case 13:
+    	$("#past").append("<img class='ball' src='resources/images/13.png' style='width:100px;height:100px;'/>");
+        break;
+    case 14:
+    	$("#past").append("<img class='ball' src='resources/images/14.png' style='width:100px;height:100px;'/>");
+        break;
+        
+    default:
+    	$("#past").append("<img class=ball src='resources/images/RED.png' style='width:100px;height:100px;'/>");
+	} 
 }
 
 window.addEventListener('resize', function(event) {
