@@ -63,11 +63,11 @@ public class StatisticHandler implements Serializable {
 			seriesColors += (color.getStatisticColor() + ",");
 		}
 		
-		seriesColors = seriesColors.substring(0, seriesColors.length() - 1);
-		System.out.println(seriesColors);
-		userPieModel.setSeriesColors(seriesColors);
-		
-		
+		if (!seriesColors.isEmpty()){
+			seriesColors = seriesColors.substring(0, seriesColors.length() - 1);
+			System.out.println(seriesColors);
+			userPieModel.setSeriesColors(seriesColors);
+		}		
 	}
 
 	public List<Spielzug> getSpielzuege() {
