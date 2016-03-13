@@ -81,19 +81,20 @@ public class GameHandler implements Serializable {
 	 * @return Number between 0 and 14
 	 */
 	public void play(RouletteColor guess){
-		System.out.println("play");
 		setNumber((int) (Math.random() * (MAX_NUMBER + 1)));
-		RouletteColor result = RouletteColor.getColorFromNumber(number);
+		RouletteColor color = RouletteColor.getColorFromNumber(number);
 		
-		RollResult rr = new RollResult(result, number);
-		if (lastRolls.size() >= 10)
+		RollResult rr = new RollResult(color, number);
+		while (lastRolls.size() >= 10)
 			lastRolls.poll();
 		lastRolls.offer(rr);
 		
 		try {
 			utx.begin();
 			Benutzer user = loginHandler.getUser();
-			Spielzug spielzug = new Spielzug(user, betAmount, guess, result, new Date());
+			user.setMoney(user.getMoney() + (guess.equals(color) ? betAmount : -betAmount));	
+			System.out.println("Users money: " + user.getMoney());
+			Spielzug spielzug = new Spielzug(user, betAmount, guess, color, new Date());
 			em.persist(spielzug);
 			utx.commit();
 		} catch (Exception e) {

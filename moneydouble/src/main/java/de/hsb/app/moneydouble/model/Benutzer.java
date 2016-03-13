@@ -56,6 +56,7 @@ public class Benutzer implements Serializable {
 		this.password = password;
 		this.rolle = rolle;
 		this.geburtsdatum = geburtsdatum;
+		this.money = money;
 	}
 
 	public Kreditkarte getKreditkarte() {

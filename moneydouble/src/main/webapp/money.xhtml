@@ -11,7 +11,7 @@
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	</f:facet>
-	<title>Statistic</title>
+	<title>Money</title>
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
@@ -24,38 +24,15 @@
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="/moneydouble/index.xhtml">Home</a></li>
-				<li class="active"><a href="/moneydouble/statistic.xhtml">Statistik</a></li>
-				<li><a href="/moneydouble/money.xhtml">Money</a></li>
+				<li><a href="/moneydouble/statistic.xhtml">Statistik</a></li>
+				<li class="active"><a href="/moneydouble/money.xhtml">Money</a></li>
 				<li><a href="#">Page 3</a></li>
 				<li><a href="#">Page 4</a></li>
 			</ul>
 		</div>
 	</nav>
 	
-	<p:tabView orientation="left" >
-		<p:tab title="Bet history">
-			<p:dataTable var="zug" value="#{statisticHandler.spielzuege}"
-				rowStyleClass="#{zug.guess eq zug.result ? 'win' : 'loss'}" reflow="true">
-				<p:column headerText="Guess">
-					<h:outputText value="#{zug.guess}" />
-				</p:column>
-
-				<p:column headerText="Result">
-					<h:outputText value="#{zug.result}" />
-				</p:column>
-
-				<p:column headerText="Amount">
-					<h:outputText value="#{zug.moneyAmount}" />
-				</p:column>
-
-				<p:column headerText="Timestamp">
-					<h:outputText value="#{zug.timestamp}" />
-				</p:column>
-			</p:dataTable>
-		</p:tab>
-		<p:tab title="Distribution">
-			<p:chart type="pie" model="#{statisticHandler.userPieModel}" style="width:400px;height:300px" />
-		</p:tab>
-	</p:tabView>
+	<h:outputLabel for="money" value="Balance:" />
+	<h:outputLabel id="money" value="#{loginHandler.user.money}" />
 </h:body>
 </html>
