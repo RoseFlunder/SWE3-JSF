@@ -112,5 +112,12 @@ public class GameHandler implements Serializable {
 	public void setBetAmount(Integer betAmount) {
 		this.betAmount = betAmount;
 	}
-
+	
+	public void multiplyBetAmount(Double factor){
+		setBetAmount((int) (getBetAmount() * factor));
+	}
+	
+	public void addToBetAmount(Integer num){
+		setBetAmount(getBetAmount() + num);
+	}
 }
