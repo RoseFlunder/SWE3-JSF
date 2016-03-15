@@ -66,7 +66,7 @@ public class LoginHandler implements Serializable {
 
 		if (benutzer.size() == 1) {
 			user = benutzer.get(0);
-			return "/index.xhtml?faces-redirect=true";
+			return "/index.jsf?faces-redirect=true";
 		}
 
 		return null;
@@ -77,13 +77,13 @@ public class LoginHandler implements Serializable {
 
 		if (user == null) {
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
-					"/login.xhtml?faces-redirect=true");
+					"/login.jsf?faces-redirect=true");
 		}
 	}
 
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "/index.xhtml?faces-redirect=true";
+		return "/login.jsf?faces-redirect=true";
 	}
 
 	public String getUsername() {
