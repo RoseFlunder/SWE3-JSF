@@ -27,7 +27,7 @@
 			<p:menuitem styleClass="navigation-menuitem-selected" value="Money" url="/money.jsf" />
 			
 			<f:facet name="options">
-	            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}"/>
 	        </f:facet>
 		</p:menubar>
 	</h:form>
