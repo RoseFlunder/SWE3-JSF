@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
@@ -22,7 +22,7 @@ import de.hsb.app.moneydouble.model.RouletteColor;
 import de.hsb.app.moneydouble.model.Spielzug;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class GameHandler implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -46,6 +46,8 @@ public class GameHandler implements Serializable {
 	private Integer number;
 
 	private Queue<RollResult> lastRolls;
+	
+	private boolean animationRunning;
 
 	public GameHandler() {
 
@@ -102,6 +104,7 @@ public class GameHandler implements Serializable {
 			e.printStackTrace();
 		}
 
+		setAnimationRunning(true);
 		RequestContext.getCurrentInstance().execute("spin(" + getNumber() + ")");
 	}
 
@@ -119,5 +122,13 @@ public class GameHandler implements Serializable {
 	
 	public void addToBetAmount(Integer num){
 		setBetAmount(getBetAmount() + num);
+	}
+
+	public boolean isAnimationRunning() {
+		return animationRunning;
+	}
+
+	public void setAnimationRunning(boolean animationRunning) {
+		this.animationRunning = animationRunning;
 	}
 }
