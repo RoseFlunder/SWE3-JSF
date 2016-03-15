@@ -59,8 +59,14 @@ public class LoginHandler implements Serializable {
 
 		try {
 			user = q.getSingleResult();
+			utx.begin();
+			user.setMoney(user.getMoney() + 1000);
+//			em.merge(user);
+			utx.commit();
+			
 			return "/index.jsf?faces-redirect=true";
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong credentials", "Wrong username or password"));
 		}

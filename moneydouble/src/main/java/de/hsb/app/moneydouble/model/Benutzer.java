@@ -60,6 +60,10 @@ public class Benutzer implements Serializable {
 		this.geburtsdatum = geburtsdatum;
 		this.money = money;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
 	public Kreditkarte getKreditkarte() {
 		return kreditkarte;
