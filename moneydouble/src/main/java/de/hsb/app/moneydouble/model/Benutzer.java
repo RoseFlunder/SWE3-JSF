@@ -18,12 +18,14 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries({
 	@NamedQuery(name=Benutzer.FIND_ADMIN_USER, query="select b from Benutzer b where b.username='admin'"),
-	@NamedQuery(name=Benutzer.FIND_USER_BY_NAME, query="select b from Benutzer b where b.username= :username")
+	@NamedQuery(name=Benutzer.FIND_USER_BY_NAME, query="select b from Benutzer b where b.username= :username"),
+	@NamedQuery(name=Benutzer.GET_USER_LOGIN, query="select b from Benutzer b where b.username = :username and b.password = :password")
 })
 public class Benutzer implements Serializable {
 	
 	public static final String FIND_ADMIN_USER = "findAdminUser";
 	public static final String FIND_USER_BY_NAME = "findUserByName";
+	public static final String GET_USER_LOGIN = "getUserLogin";
 
 	private static final long serialVersionUID = 1L;
 	

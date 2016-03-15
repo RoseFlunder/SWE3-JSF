@@ -2,17 +2,17 @@ package de.hsb.app.moneydouble.controller;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 import de.hsb.app.moneydouble.model.Benutzer;
@@ -53,20 +53,16 @@ public class LoginHandler implements Serializable {
 	}
 
 	public String login() {
-		Query query = em
-				.createQuery("select b from Benutzer b " + "where b.username = :username and b.password = :password ");
+		TypedQuery<Benutzer> q = em.createNamedQuery(Benutzer.GET_USER_LOGIN, Benutzer.class);
+		q.setParameter("username", username);
+		q.setParameter("password", password);
 
-		query.setParameter("username", username);
-		query.setParameter("password", password);
-
-		System.out.println(username + " " + password);
-
-		@SuppressWarnings("unchecked")
-		List<Benutzer> benutzer = query.getResultList();
-
-		if (benutzer.size() == 1) {
-			user = benutzer.get(0);
+		try {
+			user = q.getSingleResult();
 			return "/index.jsf?faces-redirect=true";
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong credentials", "Wrong username or password"));
 		}
 
 		return null;
