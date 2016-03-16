@@ -37,7 +37,7 @@
 	
 	<h:form>
 		<p:focus for="geld" />
-		<p:remoteCommand name="updateText" update="rollHistory money btnRed btnGreen btnBlack" action="#{gameHandler.setAnimationRunning(false)}"/>
+		<p:remoteCommand name="updateText" immediate="true" update="rollHistory money btnRed btnGreen btnBlack" action="#{gameHandler.setAnimationRunning(false)}"/>
 		
 		<div id="case" style="margin-bottom: 5px;">
 			<div id="pointer"/>
