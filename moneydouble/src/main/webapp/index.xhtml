@@ -64,7 +64,7 @@
     	
     	<p:panel header="Letzte Kugeln">        	
         	<p:dataList itemType="none" styleClass="rollHistoryList" itemStyleClass="rollHistoryListItem"
-        				id="rollHistory" var="rollResult" value="#{gameHandler.lastRolls}">
+        				id="rollHistory" var="rollResult" value="#{loginHandler.lastRolls}">
 				<p:graphicImage name="images/#{rollResult.number}.png"/>
 			</p:dataList>
     	</p:panel>
