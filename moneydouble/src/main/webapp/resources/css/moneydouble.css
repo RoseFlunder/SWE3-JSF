@@ -13,31 +13,6 @@
 	background-color: #A0FAAA;
 }
 
-.navbar-static-top {
-    min-height: 64px;
-}
-
-.navbar-nav > li > a {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    line-height: 64px;
-}
-
-@media (max-width: 767px) {
-    .navbar-nav > li > a {
-    line-height: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;}
-}
-
-[class*='col-'] 
-{
-	float: left;
-	min-height: 64px; 
-	width: 16.66%; 
-	padding: 2px;
-}
-
 #pointer{
 	width:3px;
 	background:#ff0;
@@ -94,7 +69,7 @@
 }
 
 .rollHistoryList .ui-datalist-data{
-   overflow:auto;
+   overflow: auto;
 }
 
 .rollHistoryListItem{
@@ -104,7 +79,7 @@
 }
 
 #navigation .ui-menu-list{
-	display: flex;
+	display: inherit;
 }
 
 #navigation .ui-menuitem{
@@ -117,7 +92,10 @@
 
 #navigation .ui-menuitem-text{
 	display: block;
-	align-self: center;
+}
+
+#logout{
+	float: right;
 }
 
 .ui-menuitem-active{
@@ -131,9 +109,13 @@
 
 .navigation-menuitem .ui-menuitem-text {
     font-size: x-large;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .navigation-menuitem-selected .ui-menuitem-text {
     font-size: x-large;
     font-weight: bolder;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

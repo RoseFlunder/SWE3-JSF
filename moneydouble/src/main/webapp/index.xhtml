@@ -4,7 +4,6 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
 <script type="text/javascript" src="resources/roll.js"/>
 <h:head>
 	<f:facet name="first">
@@ -30,7 +29,7 @@
 			<p:menuitem styleClass="navigation-menuitem" value="Money" url="/money.jsf" />
 			
 			<f:facet name="options">
-	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}"/>
+	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}" style="height:50px;"/>
 	        </f:facet>
 		</p:menubar>
 	</h:form>
@@ -44,18 +43,38 @@
 		</div>
 		
 		<p:panel header="Money">
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-2">
+						<p:commandButton value="2x"
+							action="#{gameHandler.multiplyBetAmount(2)}" update="geld" style="width:100%;"/>
+					</div>
+					<div class="ui-grid-col-2">
+						<p:commandButton value="1/2"
+							action="#{gameHandler.multiplyBetAmount(0.5)}" update="geld" style="width:100%;"/>
+					</div>
+					<div class="ui-grid-col-2">
+						<p:commandButton value="+1"
+							action="#{gameHandler.addToBetAmount(1)}" update="geld" style="width:100%;"/>
+					</div>
+					<div class="ui-grid-col-2">
+						<p:commandButton value="+10"
+							action="#{gameHandler.addToBetAmount(10)}" update="geld" style="width:100%;"/>
+					</div>
+					<div class="ui-grid-col-2">
+						<p:commandButton value="+100"
+							action="#{gameHandler.addToBetAmount(100)}" update="geld" style="width:100%;"/>
+					</div>
+					<div class="ui-grid-col-2">
+						<p:commandButton value="+1000"
+							action="#{gameHandler.addToBetAmount(1000)}" update="geld" style="width:100%;"/>
+					</div>
+				</div>
+			</div>
         	<h:panelGrid columns="2" cellpadding="10">
-        		<h:outputLabel for="money" value="Balance:" />
+        		<h:outputLabel for="money" value="Balance:" style="width:150px;"/>
 				<h:outputLabel id="money" value="#{loginHandler.user.money}" />
-        	
-        		<!-- So könnte man die Buttons belegen
-				<p:commandButton value="x2"  action="#{gameHandler.multiplyBetAmount(2)}" update="geld" />
-        		<p:commandButton value="x1/2" action="#{gameHandler.multiplyBetAmount(0.5)}" update="geld"/>
-        		<p:commandButton value="+100"  action="#{gameHandler.addToBetAmount(100)}" update="geld" />
-        		<p:commandButton value="-100" action="#{gameHandler.addToBetAmount(-100)}" update="geld"/>
-        		-->
-        	
-	            <p:outputLabel for="geld" value="Bet amount:" />   
+	            <h:outputLabel for="geld" value="Bet amount:" style="width:150px;"/>   
 	            <p:inputText id="geld" value="#{gameHandler.betAmount}" required="true" requiredMessage="Please specify a valid amount">
 	            	<f:validateLongRange minimum="1" maximum="#{loginHandler.user.money}" />
 	            </p:inputText>  
@@ -69,7 +88,7 @@
 			</p:dataList>
     	</p:panel>
     	
-    	<p:panel header="Setzen">
+    	<p:panel header="Setzen" class="ui-grid ui-grid-responsive">
         	<div class="ui-grid ui-grid-responsive">
 	   			<div class="ui-grid-row">
 	   				<div class="ui-grid-col-4">
