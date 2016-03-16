@@ -2,6 +2,8 @@ package de.hsb.app.moneydouble.controller;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -16,6 +18,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 import de.hsb.app.moneydouble.model.Benutzer;
+import de.hsb.app.moneydouble.model.RollResult;
 import de.hsb.app.moneydouble.model.Rolle;
 
 @ManagedBean
@@ -33,10 +36,12 @@ public class LoginHandler implements Serializable {
 
 	@Resource
 	private UserTransaction utx;
+	
+	private Queue<RollResult> lastRolls;
 
 	@PostConstruct
 	public void init() {
-
+		lastRolls = new LinkedList<>();
 	}
 
 	public String register() {
@@ -110,5 +115,13 @@ public class LoginHandler implements Serializable {
 
 	public void setUser(Benutzer user) {
 		this.user = user;
+	}
+	
+	public Queue<RollResult> getLastRolls() {
+		return lastRolls;
+	}
+
+	public void setLastRolls(Queue<RollResult> lastRolls) {
+		this.lastRolls = lastRolls;
 	}
 }
