@@ -48,19 +48,14 @@
         		<h:outputLabel for="money" value="Balance:" />
 				<h:outputLabel id="money" value="#{loginHandler.user.money}" />
         	
-        		<!-- So könnte man die Buttons belegen
-				<p:commandButton value="x2"  action="#{gameHandler.multiplyBetAmount(2)}" update="geld" />
-        		<p:commandButton value="x1/2" action="#{gameHandler.multiplyBetAmount(0.5)}" update="geld"/>
-        		<p:commandButton value="+100"  action="#{gameHandler.addToBetAmount(100)}" update="geld" />
-        		<p:commandButton value="-100" action="#{gameHandler.addToBetAmount(-100)}" update="geld"/>
-        		-->
-        	
 	            <p:outputLabel for="geld" value="Bet amount:" />   
 	            <p:inputText id="geld" value="#{gameHandler.betAmount}" required="true" requiredMessage="Please specify a valid amount">
 	            	<f:validateLongRange minimum="1" maximum="#{loginHandler.user.money}" />
 	            </p:inputText>  
         	</h:panelGrid>
     	</p:panel>
+    	
+    	Test :D
     	
     	<p:panel header="Letzte Kugeln">        	
         	<p:dataList itemType="none" styleClass="rollHistoryList" itemStyleClass="rollHistoryListItem"
