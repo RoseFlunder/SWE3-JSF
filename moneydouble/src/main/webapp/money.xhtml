@@ -4,9 +4,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<h:outputStylesheet library="css" name="moneydouble.css"/>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +11,11 @@
 	<title>Money</title>
 </h:head>
 <h:body>
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="moneydouble.css"/>
+	</f:facet>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<p:growl id="growl" showDetail="true" sticky="false"/>
 	<h:form id="navigation">
 		<p:menubar>
 			<p:menuitem>
@@ -34,5 +35,37 @@
 	
 	<h:outputLabel for="money" value="Balance:" />
 	<h:outputLabel id="money" value="#{loginHandler.user.money}" />
+	
+	<h:form>
+		<p:panelGrid columns="2">
+			<h:outputLabel value="Kartentyp:" for="typ"/>
+			<h:panelGroup>
+				<p:selectOneMenu id="typ" value="#{moneyHandler.tmpKreditkarte.typ}">
+					<f:selectItems var="form" value="#{moneyHandler.kreditkartentypValues}"
+						itemValue="#{form}" itemLabel="#{form.label}"/>
+				</p:selectOneMenu>	
+			</h:panelGroup>	
+		
+			<h:outputLabel value="Kreditkartennummer:" for="kknummer"/>
+			<p:inputText id="kknummer" value="#{moneyHandler.tmpKreditkarte.nummer}">
+				<f:converter converterId="kreditkartenConverter"/>
+				<f:validator validatorId="kreditkartenValidator" />
+			</p:inputText>
+			
+			<h:outputLabel value="Gültig bis: (z.B. 10/15)" for="gueltig"/>
+			<h:panelGroup>
+				<p:calendar id="gueltig" value="#{moneyHandler.tmpKreditkarte.gueltigBis}"
+							mode="popup" navigator="true" showOn="button" pattern="MM/yy"/>
+				<h:message for="gueltig" styleClass="message" />
+			</h:panelGroup>
+			
+			<h:outputLabel value="Inhaber:" for="inhaber"/>
+			<h:panelGroup>
+				<p:inputText id="inhaber" value="#{moneyHandler.tmpKreditkarte.inhaber}" required="true" requiredMessage="Inhaber fehlt"/>
+				<h:message for="inhaber" styleClass="message" />
+			</h:panelGroup>
+		</p:panelGrid>
+		<p:commandButton value="Speichern" action="#{moneyHandler.saveCreditcard()}" />
+	</h:form>
 </h:body>
 </html>
