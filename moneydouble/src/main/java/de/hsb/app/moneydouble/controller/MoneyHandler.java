@@ -1,5 +1,8 @@
 package de.hsb.app.moneydouble.controller;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
@@ -7,10 +10,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.UserTransaction;
 
 import de.hsb.app.moneydouble.model.Benutzer;
 import de.hsb.app.moneydouble.model.Kreditkarte;
+import de.hsb.app.moneydouble.model.KreditkartenTransaktion;
 import de.hsb.app.moneydouble.model.Kreditkartentyp;
 
 @ManagedBean
@@ -26,12 +31,20 @@ public class MoneyHandler {
 	@ManagedProperty("#{loginHandler.user}")
 	private Benutzer user;
 
+	private List<KreditkartenTransaktion> transaktionen;
+
 	public MoneyHandler() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		tmpKreditkarte = user.getKreditkarte() != null ? user.getKreditkarte() : new Kreditkarte();
+
+		TypedQuery<KreditkartenTransaktion> tq = em.createNamedQuery(KreditkartenTransaktion.FIND_BY_USER,
+				KreditkartenTransaktion.class);
+		tq.setParameter("user", user);
+
+		transaktionen = tq.getResultList();
 	}
 
 	private Kreditkarte tmpKreditkarte;
@@ -39,16 +52,48 @@ public class MoneyHandler {
 	public void saveCreditcard() {
 		try {
 			utx.begin();
-			
-			
 			if (user.getKreditkarte() == null)
 				user.setKreditkarte(tmpKreditkarte);
-			
+
 			em.merge(user);
 			utx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void deleteCreditcard() {
+		try {
+			utx.begin();
+			user.setKreditkarte(null);
+
+			em.merge(user);
+			utx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void buyCredits(Integer numCredits) {
+		try {
+			utx.begin();
+
+			KreditkartenTransaktion tr = new KreditkartenTransaktion(numCredits, new Date(), user.getKreditkarte(),
+					user);
+			em.merge(tr);
+			transaktionen.add(0, tr);
+
+			user.setMoney(user.getMoney() + numCredits);
+			em.merge(user);
+
+			utx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addNewCreditcardToUser() {
+		user.setKreditkarte((tmpKreditkarte = new Kreditkarte()));
 	}
 
 	public Kreditkarte getTmpKreditkarte() {
@@ -69,6 +114,14 @@ public class MoneyHandler {
 
 	public void setUser(Benutzer user) {
 		this.user = user;
+	}
+
+	public List<KreditkartenTransaktion> getTransaktionen() {
+		return transaktionen;
+	}
+
+	public void setTransaktionen(List<KreditkartenTransaktion> transaktionen) {
+		this.transaktionen = transaktionen;
 	}
 
 }

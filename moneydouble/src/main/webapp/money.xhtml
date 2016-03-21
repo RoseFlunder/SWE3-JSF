@@ -3,6 +3,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
 	<f:facet name="first">
@@ -12,60 +14,115 @@
 </h:head>
 <h:body>
 	<f:facet name="last">
-		<h:outputStylesheet library="css" name="moneydouble.css"/>
+		<h:outputStylesheet library="css" name="moneydouble.css" />
 	</f:facet>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	<p:growl id="growl" showDetail="true" sticky="false"/>
+	<p:growl id="growl" showDetail="true" sticky="false" />
 	<h:form id="navigation">
 		<p:menubar>
 			<p:menuitem>
-			    <h:link outcome="/index.jsf">
-			        <h:graphicImage name="images/logo.png" height="50" />
-			    </h:link>
+				<h:link outcome="/index.jsf">
+					<h:graphicImage name="images/logo.png" height="50" />
+				</h:link>
 			</p:menuitem>
-			<p:menuitem styleClass="navigation-menuitem" value="Home" url="/index.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="Statistic" url="/statistic.jsf" />
-			<p:menuitem styleClass="navigation-menuitem-selected" value="Money" url="/money.jsf" />
-			
+			<p:menuitem styleClass="navigation-menuitem" value="Home"
+				url="/index.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="Statistic"
+				url="/statistic.jsf" />
+			<p:menuitem styleClass="navigation-menuitem-selected" value="Money"
+				url="/money.jsf" />
+
 			<f:facet name="options">
-	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}"/>
-	        </f:facet>
+				<p:commandButton value="Logout" icon="ui-icon-extlink"
+					action="#{loginHandler.logout()}" />
+			</f:facet>
 		</p:menubar>
 	</h:form>
-	
+
 	<h:outputLabel for="money" value="Balance:" />
 	<h:outputLabel id="money" value="#{loginHandler.user.money}" />
-	
-	<h:form>
-		<p:panelGrid columns="2">
-			<h:outputLabel value="Kartentyp:" for="typ"/>
-			<h:panelGroup>
+
+	<h:panelGroup id="addCreditCardSection">
+		<h:form rendered="#{empty moneyHandler.user.kreditkarte}">
+			<p:commandButton value="Add creditcard information"
+				update="creditcardGroup addCreditCardSection"
+				action="#{moneyHandler.addNewCreditcardToUser()}" />
+		</h:form>
+	</h:panelGroup>
+
+	<h:panelGroup id="creditcardGroup">
+		<h:form rendered="#{not empty moneyHandler.user.kreditkarte}">
+			<p:panelGrid columns="2">
+				<h:outputLabel value="Kartentyp:" for="typ" />
 				<p:selectOneMenu id="typ" value="#{moneyHandler.tmpKreditkarte.typ}">
-					<f:selectItems var="form" value="#{moneyHandler.kreditkartentypValues}"
-						itemValue="#{form}" itemLabel="#{form.label}"/>
-				</p:selectOneMenu>	
-			</h:panelGroup>	
-		
-			<h:outputLabel value="Kreditkartennummer:" for="kknummer"/>
-			<p:inputText id="kknummer" value="#{moneyHandler.tmpKreditkarte.nummer}">
-				<f:converter converterId="kreditkartenConverter"/>
-				<f:validator validatorId="kreditkartenValidator" />
-			</p:inputText>
+					<f:selectItems var="form"
+						value="#{moneyHandler.kreditkartentypValues}" itemValue="#{form}"
+						itemLabel="#{form.label}" />
+				</p:selectOneMenu>
+
+				<h:outputLabel value="Kreditkartennummer:" for="kknummer" />
+				<p:inputText id="kknummer"
+					value="#{moneyHandler.tmpKreditkarte.nummer}">
+					<f:converter converterId="kreditkartenConverter" />
+					<f:validator validatorId="kreditkartenValidator" />
+				</p:inputText>
+
+				<h:outputLabel value="Gültig bis: (z.B. 10/15)" for="gueltig" />
+				<h:panelGroup>
+					<p:calendar id="gueltig"
+						value="#{moneyHandler.tmpKreditkarte.gueltigBis}" mode="popup"
+						navigator="true" showOn="button" pattern="MM/yy" />
+					<h:message for="gueltig" styleClass="message" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Inhaber:" for="inhaber" />
+				<h:panelGroup>
+					<p:inputText id="inhaber"
+						value="#{moneyHandler.tmpKreditkarte.inhaber}" required="true"
+						requiredMessage="Inhaber fehlt" />
+					<h:message for="inhaber" styleClass="message" />
+				</h:panelGroup>
+			</p:panelGrid>
+			<p:commandButton value="Löschen"
+				action="#{moneyHandler.deleteCreditcard()}"
+				update="creditcardGroup addCreditCardSection" />
+			<p:commandButton value="Speichern"
+				action="#{moneyHandler.saveCreditcard()}" update="growl" />
+
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<p:commandButton class="ui-grid-col-4"
+						value="Buy 1000 Credits (10€)"
+						action="#{moneyHandler.buyCredits(1000)}" update="growl transactionHistory money" />
+					<p:commandButton class="ui-grid-col-4"
+						value="Buy 2000 Credits (20€)"
+						action="#{moneyHandler.buyCredits(2000)}" update="growl transactionHistory money" />
+					<p:commandButton class="ui-grid-col-4"
+						value="Buy 5000 Credits (50€)"
+						action="#{moneyHandler.buyCredits(5000)}" update="growl transactionHistory money" />
+				</div>
+			</div>
+		</h:form>
+
+		<p:dataTable id="transactionHistory" var="transaktion" value="#{moneyHandler.transaktionen}"
+			rowStyleClass="#{transaktion.cents gt 0 ? 'win' : 'loss'}"
+			reflow="true">
+			<p:column headerText="Credits">
+				<h:outputText value="#{transaktion.cents}" />
+			</p:column>			
+
+			<p:column headerText="Creditcard number">
+				<h:outputText value="#{transaktion.kreditkarte.nummer}" />
+			</p:column>
 			
-			<h:outputLabel value="Gültig bis: (z.B. 10/15)" for="gueltig"/>
-			<h:panelGroup>
-				<p:calendar id="gueltig" value="#{moneyHandler.tmpKreditkarte.gueltigBis}"
-							mode="popup" navigator="true" showOn="button" pattern="MM/yy"/>
-				<h:message for="gueltig" styleClass="message" />
-			</h:panelGroup>
-			
-			<h:outputLabel value="Inhaber:" for="inhaber"/>
-			<h:panelGroup>
-				<p:inputText id="inhaber" value="#{moneyHandler.tmpKreditkarte.inhaber}" required="true" requiredMessage="Inhaber fehlt"/>
-				<h:message for="inhaber" styleClass="message" />
-			</h:panelGroup>
-		</p:panelGrid>
-		<p:commandButton value="Speichern" action="#{moneyHandler.saveCreditcard()}" />
-	</h:form>
+			<p:column headerText="Euro">
+				<h:outputText value="#{transaktion.euro}" />
+			</p:column>
+
+			<p:column headerText="Timestamp">
+				<h:outputText value="#{transaktion.timestamp}" />
+			</p:column>
+		</p:dataTable>
+	</h:panelGroup>
 </h:body>
 </html>

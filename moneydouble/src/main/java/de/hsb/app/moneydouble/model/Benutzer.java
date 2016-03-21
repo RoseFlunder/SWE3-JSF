@@ -43,7 +43,7 @@ public class Benutzer implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date geburtsdatum;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Kreditkarte kreditkarte;
 	
 	private Integer money;
