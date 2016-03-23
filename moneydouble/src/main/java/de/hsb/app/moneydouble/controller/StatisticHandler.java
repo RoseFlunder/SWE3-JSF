@@ -26,12 +26,8 @@ public class StatisticHandler implements Serializable {
 	
 	private List<Spielzug> spielzuege;
 	
-	@ManagedProperty("#{loginHandler}")
-	private LoginHandler loginHandler;
-	
-	public void setLoginHandler(LoginHandler loginHandler) {
-		this.loginHandler = loginHandler;
-	}
+	@ManagedProperty("#{loginHandler.userId}")
+	private Integer userId;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -40,7 +36,9 @@ public class StatisticHandler implements Serializable {
 
 	@PostConstruct
 	public void init(){
-		Benutzer b = loginHandler.getUser();
+		if (userId == null)
+			return;
+		Benutzer b = em.find(Benutzer.class, userId);
 		
 		TypedQuery<Spielzug> tq = em.createNamedQuery(Spielzug.FIND_BY_USER, Spielzug.class);
 		tq.setParameter("user", b);
@@ -65,7 +63,6 @@ public class StatisticHandler implements Serializable {
 		
 		if (!seriesColors.isEmpty()){
 			seriesColors = seriesColors.substring(0, seriesColors.length() - 1);
-			System.out.println(seriesColors);
 			userPieModel.setSeriesColors(seriesColors);
 		}		
 	}
@@ -85,5 +82,12 @@ public class StatisticHandler implements Serializable {
 	public void setUserPieModel(PieChartModel userPieModel) {
 		this.userPieModel = userPieModel;
 	}
-	
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 }

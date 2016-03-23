@@ -28,22 +28,24 @@ public class GameHandler implements Serializable {
 
 	private static final int MAX_NUMBER = 14;
 	
-	@ManagedProperty("#{loginHandler.user}")
-	private Benutzer user;
+	@ManagedProperty("#{loginHandler.userId}")
+	private Integer userId;
+	
+	@ManagedProperty("#{loginHandler.lastRolls}")
+	private Queue<RollResult> lastRolls;
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Resource
 	private UserTransaction utx;
+	
+	private Benutzer user;
 
 	private Integer betAmount;
 
 	private Integer number;
 
-	@ManagedProperty("#{loginHandler.lastRolls}")
-	private Queue<RollResult> lastRolls;
-	
 	private boolean animationRunning;
 
 	public GameHandler() {
@@ -60,6 +62,9 @@ public class GameHandler implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		if (userId != null)
+			user = em.find(Benutzer.class, userId);
+		
 		betAmount = 10;
 	}
 
@@ -79,7 +84,7 @@ public class GameHandler implements Serializable {
 			utx.begin();
 			user.setMoney(user.getMoney() + (guess.equals(color)
 					? (RouletteColor.GREEN.equals(color) ? betAmount * 14 : betAmount) : -betAmount));
-			System.out.println("Users money: " + user.getMoney());
+			user = em.merge(user);
 			Spielzug spielzug = new Spielzug(user, betAmount, guess, color, new Date());
 			em.persist(spielzug);
 			utx.commit();
@@ -96,7 +101,12 @@ public class GameHandler implements Serializable {
 	}
 
 	public void setBetAmount(Integer betAmount) {
-		this.betAmount = betAmount;
+		if (betAmount <= 0)
+			this.betAmount = 1;
+		else if (betAmount <= user.getMoney())
+			this.betAmount = betAmount;
+		else
+			this.betAmount = user.getMoney();
 	}
 	
 	public void multiplyBetAmount(Double factor){
@@ -130,4 +140,14 @@ public class GameHandler implements Serializable {
 	public void setLastRolls(Queue<RollResult> lastRolls) {
 		this.lastRolls = lastRolls;
 	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
+	
 }

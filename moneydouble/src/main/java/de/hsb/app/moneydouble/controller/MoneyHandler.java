@@ -28,7 +28,9 @@ public class MoneyHandler {
 	@Resource
 	private UserTransaction utx;
 
-	@ManagedProperty("#{loginHandler.user}")
+	@ManagedProperty("#{loginHandler.userId}")
+	private Integer userId;
+	
 	private Benutzer user;
 
 	private List<KreditkartenTransaktion> transaktionen;
@@ -38,6 +40,10 @@ public class MoneyHandler {
 
 	@PostConstruct
 	public void init() {
+		if (userId == null)
+			return;
+		
+		user = em.find(Benutzer.class, userId);
 		tmpKreditkarte = user.getKreditkarte();
 
 		TypedQuery<KreditkartenTransaktion> tq = em.createNamedQuery(KreditkartenTransaktion.FIND_BY_USER,
@@ -75,7 +81,11 @@ public class MoneyHandler {
 		}
 	}
 
-	public void buyCredits(Integer numCredits) {
+	/**
+	 * Changes the amount of the currently logged in user
+	 * @param numCredits
+	 */
+	public void modifiyCredits(Integer numCredits) {
 		try {
 			utx.begin();
 
@@ -128,4 +138,11 @@ public class MoneyHandler {
 		this.transaktionen = transaktionen;
 	}
 
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 }

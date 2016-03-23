@@ -29,7 +29,8 @@ public class LoginHandler implements Serializable {
 
 	private String username;
 	private String password;
-	private Benutzer user;
+	
+	private Integer userId;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -42,6 +43,7 @@ public class LoginHandler implements Serializable {
 	@PostConstruct
 	public void init() {
 		lastRolls = new LinkedList<>();
+		userId = null;
 	}
 
 	public String register() {
@@ -52,6 +54,7 @@ public class LoginHandler implements Serializable {
 			utx.commit();
 			return "/login.xhtml?faces-redirect=true";
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return null;
@@ -63,12 +66,7 @@ public class LoginHandler implements Serializable {
 		q.setParameter("password", password);
 
 		try {
-			user = q.getSingleResult();
-			utx.begin();
-			user.setMoney(user.getMoney() + 1000);
-//			em.merge(user);
-			utx.commit();
-			
+			userId = q.getSingleResult().getId();			
 			return "/index.jsf?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -82,7 +80,7 @@ public class LoginHandler implements Serializable {
 	public void checkLoggedIn(ComponentSystemEvent cse) {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (user == null) {
+		if (userId == null) {
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
 					"/login.jsf?faces-redirect=true");
 		}
@@ -109,12 +107,12 @@ public class LoginHandler implements Serializable {
 		this.password = password;
 	}
 
-	public Benutzer getUser() {
-		return user;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser(Benutzer user) {
-		this.user = user;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 	public Queue<RollResult> getLastRolls() {

@@ -1,10 +1,10 @@
 <?xml version="1.0"	encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<script type="text/javascript" src="resources/roll.js"/>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<script type="text/javascript" src="resources/roll.js" />
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,96 +13,120 @@
 </h:head>
 <h:body>
 	<f:facet name="last">
-		<h:outputStylesheet library="css" name="moneydouble.css"/>
+		<h:outputStylesheet library="css" name="moneydouble.css" />
 	</f:facet>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	<p:growl id="growl" showDetail="true" sticky="false"/>
+	<p:growl id="growl" showDetail="true" sticky="false" />
 	<h:form id="navigation">
 		<p:menubar>
 			<p:menuitem>
-			    <h:link outcome="/index.jsf">
-			        <h:graphicImage name="images/logo.png" height="50" />
-			    </h:link>
+				<h:link outcome="/index.jsf">
+					<h:graphicImage name="images/logo.png" height="50" />
+				</h:link>
 			</p:menuitem>
-			<p:menuitem styleClass="navigation-menuitem-selected" value="Home" url="/index.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="Statistic" url="/statistic.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="Money" url="/money.jsf" />
-			
+			<p:menuitem styleClass="navigation-menuitem-selected" value="Home"
+				url="/index.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="Statistic"
+				url="/statistic.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="Money"
+				url="/money.jsf" />
+
 			<f:facet name="options">
-	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}" style="height:50px;"/>
-	        </f:facet>
+				<p:commandButton value="Logout" icon="ui-icon-extlink"
+					action="#{loginHandler.logout()}" style="height:50px;" />
+			</f:facet>
 		</p:menubar>
 	</h:form>
-	
+
 	<h:form>
 		<p:focus for="geld" />
-		<p:remoteCommand name="updateText" immediate="true" update="rollHistory money btnRed btnGreen btnBlack" action="#{gameHandler.setAnimationRunning(false)}"/>
-		
+		<p:remoteCommand name="updateText" immediate="true"
+			update="rollHistory money btnRed btnGreen btnBlack"
+			action="#{gameHandler.setAnimationRunning(false)}" />
+
 		<div id="case" style="margin-bottom: 5px;">
-			<div id="pointer"/>
+			<div id="pointer" />
 		</div>
-		
+
 		<p:panel header="Money">
 			<div class="ui-grid ui-grid-responsive">
 				<div class="ui-grid-row">
 					<div class="ui-grid-col-2">
 						<p:commandButton value="2x"
-							action="#{gameHandler.multiplyBetAmount(2)}" update="geld" style="width:100%;"/>
+							action="#{gameHandler.multiplyBetAmount(2)}" update="geld"
+							styleClass="betAmountBtn" />
 					</div>
 					<div class="ui-grid-col-2">
 						<p:commandButton value="1/2"
-							action="#{gameHandler.multiplyBetAmount(0.5)}" update="geld" style="width:100%;"/>
+							action="#{gameHandler.multiplyBetAmount(0.5)}" update="geld"
+							styleClass="betAmountBtn" />
 					</div>
 					<div class="ui-grid-col-2">
 						<p:commandButton value="+1"
-							action="#{gameHandler.addToBetAmount(1)}" update="geld" style="width:100%;"/>
+							action="#{gameHandler.addToBetAmount(1)}" update="geld"
+							styleClass="betAmountBtn" />
 					</div>
 					<div class="ui-grid-col-2">
 						<p:commandButton value="+10"
-							action="#{gameHandler.addToBetAmount(10)}" update="geld" style="width:100%;"/>
+							action="#{gameHandler.addToBetAmount(10)}" update="geld"
+							styleClass="betAmountBtn" />
 					</div>
 					<div class="ui-grid-col-2">
 						<p:commandButton value="+100"
-							action="#{gameHandler.addToBetAmount(100)}" update="geld" style="width:100%;"/>
+							action="#{gameHandler.addToBetAmount(100)}" update="geld"
+							styleClass="betAmountBtn" />
 					</div>
 					<div class="ui-grid-col-2">
 						<p:commandButton value="+1000"
-							action="#{gameHandler.addToBetAmount(1000)}" update="geld" style="width:100%;"/>
+							action="#{gameHandler.addToBetAmount(1000)}" update="geld"
+							styleClass="betAmountBtn" />
 					</div>
 				</div>
 			</div>
-        	<h:panelGrid columns="2" cellpadding="10">
-        		<h:outputLabel for="money" value="Balance:" style="width:150px;"/>
-				<h:outputLabel id="money" value="#{loginHandler.user.money}" />
-	            <h:outputLabel for="geld" value="Bet amount:" style="width:150px;"/>   
-	            <p:inputText id="geld" value="#{gameHandler.betAmount}" required="true" requiredMessage="Please specify a valid amount">
-	            	<f:validateLongRange minimum="1" maximum="#{loginHandler.user.money}" />
-	            </p:inputText>  
-        	</h:panelGrid>
-    	</p:panel>
-    	
-    	<p:panel header="Letzte Kugeln">        	
-        	<p:dataList itemType="none" styleClass="rollHistoryList" itemStyleClass="rollHistoryListItem"
-        				id="rollHistory" var="rollResult" value="#{loginHandler.lastRolls}">
-				<p:graphicImage name="images/#{rollResult.number}.png"/>
+			<h:panelGrid columns="2" cellpadding="10">
+				<h:outputLabel for="money" value="Balance:" style="width:150px;" />
+				<h:outputLabel id="money" value="#{gameHandler.user.money}" />
+				<h:outputLabel for="geld" value="Bet amount:" style="width:150px;" />
+				<p:inputText id="geld" value="#{gameHandler.betAmount}"
+					required="true" requiredMessage="Please specify a valid amount">
+					<f:validateLongRange minimum="1"
+						maximum="#{gameHandler.user.money}" />
+				</p:inputText>
+			</h:panelGrid>
+		</p:panel>
+
+		<p:panel header="Letzte Kugeln">
+			<p:dataList itemType="none" styleClass="rollHistoryList"
+				itemStyleClass="rollHistoryListItem" id="rollHistory"
+				var="rollResult" value="#{loginHandler.lastRolls}">
+				<p:graphicImage name="images/#{rollResult.number}.png" />
 			</p:dataList>
-    	</p:panel>
-    	
-    	<p:panel header="Setzen" class="ui-grid ui-grid-responsive">
-        	<div class="ui-grid ui-grid-responsive">
-	   			<div class="ui-grid-row">
-	   				<div class="ui-grid-col-4">
-	   					<p:commandButton id="btnRed" styleClass="playbutton" disabled="#{gameHandler.animationRunning}" value="1-7" style="color:#FF0000;" action="#{gameHandler.play('RED')}" update="growl btnRed btnGreen btnBlack"/>
-	   				</div>
-	   				<div class="ui-grid-col-4">
-	   					<p:commandButton id="btnGreen" styleClass="playbutton" disabled="#{gameHandler.animationRunning}" value="0" style="color:#00FF00;" action="#{gameHandler.play('GREEN')}" update="growl btnRed btnGreen btnBlack"/>
-	   				</div>
-	   				<div class="ui-grid-col-4">
-	   					<p:commandButton id="btnBlack" styleClass="playbutton" disabled="#{gameHandler.animationRunning}" value="8-14" style="color:#000000;" action="#{gameHandler.play('BLACK')}" update="growl btnRed btnGreen btnBlack" />
-	   				</div>
-	   			</div>
-   			</div>
-    	</p:panel>
+		</p:panel>
+
+		<p:panel header="Setzen" class="ui-grid ui-grid-responsive">
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-4">
+						<p:commandButton id="btnRed" styleClass="playbutton"
+							disabled="#{gameHandler.animationRunning}" value="1-7"
+							style="color:#FF0000;" action="#{gameHandler.play('RED')}"
+							update="growl btnRed btnGreen btnBlack" />
+					</div>
+					<div class="ui-grid-col-4">
+						<p:commandButton id="btnGreen" styleClass="playbutton"
+							disabled="#{gameHandler.animationRunning}" value="0"
+							style="color:#00FF00;" action="#{gameHandler.play('GREEN')}"
+							update="growl btnRed btnGreen btnBlack" />
+					</div>
+					<div class="ui-grid-col-4">
+						<p:commandButton id="btnBlack" styleClass="playbutton"
+							disabled="#{gameHandler.animationRunning}" value="8-14"
+							style="color:#000000;" action="#{gameHandler.play('BLACK')}"
+							update="growl btnRed btnGreen btnBlack" />
+					</div>
+				</div>
+			</div>
+		</p:panel>
 	</h:form>
 </h:body>
 </html>
