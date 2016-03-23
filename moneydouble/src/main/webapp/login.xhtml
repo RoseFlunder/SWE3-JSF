@@ -7,10 +7,13 @@
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	</f:facet>
-	<link rel="stylesheet" href="resources/moneydouble.css" type="text/css"/>
 	<title>Moneydouble Login</title>
 </h:head>
 <h:body>
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="moneydouble.css"/>
+	</f:facet>
+	<div class="centered">
 	<h:form>
 		<p:growl id="growl" showDetail="true" sticky="false"/>
 		<p:focus for="user" />
@@ -29,7 +32,9 @@
 			</h:panelGroup>
 		</p:panelGrid>
 		
-		<p:commandButton action="#{loginHandler.login()}" value="Login" update="growl"/>
+		<p:commandButton action="#{loginHandler.login()}" style="width:100%;" value="Login" update="growl"/>
+		<p:button value="Register" style="width:100%;" outcome="register.jsf" />
 	</h:form>
+	</div>
 </h:body>
 </html>
