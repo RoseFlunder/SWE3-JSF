@@ -3,7 +3,6 @@ package de.hsb.app.moneydouble.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,10 +31,10 @@ public class KreditkartenTransaktion implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Kreditkarte kreditkarte;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Benutzer user;
 
 	public KreditkartenTransaktion() {

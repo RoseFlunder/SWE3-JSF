@@ -52,10 +52,10 @@ public class MoneyHandler {
 	public void saveCreditcard() {
 		try {
 			utx.begin();
-			if (user.getKreditkarte() == null)
-				user.setKreditkarte(tmpKreditkarte);
+			user.setKreditkarte(tmpKreditkarte);
 
-			em.merge(user);
+			user = em.merge(user);
+			tmpKreditkarte = user.getKreditkarte();
 			utx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,9 +65,10 @@ public class MoneyHandler {
 	public void deleteCreditcard() {
 		try {
 			utx.begin();
+			tmpKreditkarte = null;
 			user.setKreditkarte(null);
 
-			em.merge(user);
+			user = em.merge(user);
 			utx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,11 +81,14 @@ public class MoneyHandler {
 
 			KreditkartenTransaktion tr = new KreditkartenTransaktion(numCredits, new Date(), user.getKreditkarte(),
 					user);
-			em.merge(tr);
+			em.persist(tr);
 			transaktionen.add(0, tr);
+			utx.commit();
+			
+			utx.begin();
 
 			user.setMoney(user.getMoney() + numCredits);
-			em.merge(user);
+			user = em.merge(user);
 
 			utx.commit();
 		} catch (Exception e) {
