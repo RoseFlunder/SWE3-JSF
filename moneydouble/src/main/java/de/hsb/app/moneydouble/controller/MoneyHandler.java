@@ -38,7 +38,7 @@ public class MoneyHandler {
 
 	@PostConstruct
 	public void init() {
-		tmpKreditkarte = user.getKreditkarte() != null ? user.getKreditkarte() : new Kreditkarte();
+		tmpKreditkarte = user.getKreditkarte();
 
 		TypedQuery<KreditkartenTransaktion> tq = em.createNamedQuery(KreditkartenTransaktion.FIND_BY_USER,
 				KreditkartenTransaktion.class);
@@ -92,8 +92,8 @@ public class MoneyHandler {
 		}
 	}
 
-	public void addNewCreditcardToUser() {
-		user.setKreditkarte((tmpKreditkarte = new Kreditkarte()));
+	public void createNewCreditcard() {
+		tmpKreditkarte = new Kreditkarte();
 	}
 
 	public Kreditkarte getTmpKreditkarte() {

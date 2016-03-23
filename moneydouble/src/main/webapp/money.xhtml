@@ -40,18 +40,18 @@
 	</h:form>
 
 	<h:outputLabel for="money" value="Balance:" />
-	<h:outputLabel id="money" value="#{loginHandler.user.money}" />
+	<h:outputText id="money" value="#{loginHandler.user.money}" />
 
 	<h:panelGroup id="addCreditCardSection">
 		<h:form rendered="#{empty moneyHandler.user.kreditkarte}">
 			<p:commandButton value="Add creditcard information"
 				update="creditcardGroup addCreditCardSection"
-				action="#{moneyHandler.addNewCreditcardToUser()}" />
+				action="#{moneyHandler.createNewCreditcard()}" />
 		</h:form>
 	</h:panelGroup>
 
 	<h:panelGroup id="creditcardGroup">
-		<h:form rendered="#{not empty moneyHandler.user.kreditkarte}">
+		<h:form rendered="#{not empty moneyHandler.tmpKreditkarte}">
 			<p:panelGrid columns="2">
 				<h:outputLabel value="Kartentyp:" for="typ" />
 				<p:selectOneMenu id="typ" value="#{moneyHandler.tmpKreditkarte.typ}">
@@ -85,36 +85,43 @@
 			</p:panelGrid>
 			<p:commandButton value="Löschen"
 				action="#{moneyHandler.deleteCreditcard()}"
-				update="creditcardGroup addCreditCardSection" />
+				update="creditcardGroup addCreditCardSection buy1000 buy2000 buy5000" />
 			<p:commandButton value="Speichern"
-				action="#{moneyHandler.saveCreditcard()}" update="growl" />
+				action="#{moneyHandler.saveCreditcard()}" update="growl buy1000 buy2000 buy5000" />
 
 			<div class="ui-grid ui-grid-responsive">
 				<div class="ui-grid-row">
-					<p:commandButton class="ui-grid-col-4"
+					<p:commandButton id="buy1000" class="ui-grid-col-4"
+						disabled="#{empty moneyHandler.user.kreditkarte}"
 						value="Buy 1000 Credits (10€)"
-						action="#{moneyHandler.buyCredits(1000)}" update="growl transactionHistory money" />
-					<p:commandButton class="ui-grid-col-4"
+						action="#{moneyHandler.buyCredits(1000)}"
+						update="growl transactionHistory money" />
+					<p:commandButton id="buy2000" class="ui-grid-col-4"
+						disabled="#{empty moneyHandler.user.kreditkarte}"
 						value="Buy 2000 Credits (20€)"
-						action="#{moneyHandler.buyCredits(2000)}" update="growl transactionHistory money" />
-					<p:commandButton class="ui-grid-col-4"
+						action="#{moneyHandler.buyCredits(2000)}"
+						update="growl transactionHistory money" />
+					<p:commandButton id="buy5000" class="ui-grid-col-4"
+						disabled="#{empty moneyHandler.user.kreditkarte}"
 						value="Buy 5000 Credits (50€)"
-						action="#{moneyHandler.buyCredits(5000)}" update="growl transactionHistory money" />
+						action="#{moneyHandler.buyCredits(5000)}"
+						update="growl transactionHistory money" />
 				</div>
 			</div>
 		</h:form>
 
-		<p:dataTable id="transactionHistory" var="transaktion" value="#{moneyHandler.transaktionen}"
+		<p:dataTable id="transactionHistory" var="transaktion"
+			value="#{moneyHandler.transaktionen}"
 			rowStyleClass="#{transaktion.cents gt 0 ? 'win' : 'loss'}"
 			reflow="true">
 			<p:column headerText="Credits">
 				<h:outputText value="#{transaktion.cents}" />
-			</p:column>			
+			</p:column>
 
 			<p:column headerText="Creditcard number">
 				<h:outputText value="#{transaktion.kreditkarte.nummer}" />
 			</p:column>
-			
+
 			<p:column headerText="Euro">
 				<h:outputText value="#{transaktion.euro}" />
 			</p:column>
