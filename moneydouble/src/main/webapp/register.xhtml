@@ -8,6 +8,10 @@
 	<title>Moneydouble Login</title>
 </h:head>
 <h:body>
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="moneydouble.css"/>
+	</f:facet>
+	<div class="centered">
 	<h:form>
 		<p:messages id="msgs" showDetail="true"/>
 		<p:focus for="user" />
@@ -27,9 +31,16 @@
 				<p:inputText id="password" required="true" value="#{loginHandler.password}" requiredMessage="Passwort fehlt"/>
 				<h:message for="password" styleClass="message" />
 			</h:panelGroup>
+			
+			<p:outputLabel value="Geburtstag:" for="geburtstag" />
+			<h:panelGroup>
+				<p:calendar pattern="dd.MM.yyyy" id="geburtstag" value="#{loginHandler.geburtstag}" mindate="#{loginHandler.getMaxGeburtstag()}" maxdate="#{loginHandler.getMinGeburtstag()}" required="true" requiredMessage="Geburtstag fehlt"/>
+				<h:message for="geburtstag" styleClass="message" />
+			</h:panelGroup>
 		</p:panelGrid>
 		
-		<p:commandButton id="btnRegister" action="#{loginHandler.register()}" value="Register" update="msgs" disabled="#{facesContext.validationFailed}"/>
+		<p:commandButton id="btnRegister" action="#{loginHandler.register()}" value="Register" update="msgs" style="width:100%" disabled="#{facesContext.validationFailed}"/>
 	</h:form>
+	</div>
 </h:body>
 </html>

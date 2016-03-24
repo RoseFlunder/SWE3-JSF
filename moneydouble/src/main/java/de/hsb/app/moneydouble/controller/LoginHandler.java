@@ -1,6 +1,8 @@
 package de.hsb.app.moneydouble.controller;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -27,9 +29,10 @@ public class LoginHandler implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Date geburtstag;
 	private String username;
 	private String password;
-	
+
 	private Integer userId;
 
 	@PersistenceContext
@@ -37,7 +40,7 @@ public class LoginHandler implements Serializable {
 
 	@Resource
 	private UserTransaction utx;
-	
+
 	private Queue<RollResult> lastRolls;
 
 	@PostConstruct
@@ -49,7 +52,7 @@ public class LoginHandler implements Serializable {
 	public String register() {
 		try {
 			utx.begin();
-			Benutzer newUser = new Benutzer(username, password, Rolle.BENUTZER, new Date(), 500);
+			Benutzer newUser = new Benutzer(username, password, Rolle.BENUTZER, geburtstag, 500);
 			em.persist(newUser);
 			utx.commit();
 			return "/login.xhtml?faces-redirect=true";
@@ -66,7 +69,7 @@ public class LoginHandler implements Serializable {
 		q.setParameter("password", password);
 
 		try {
-			userId = q.getSingleResult().getId();			
+			userId = q.getSingleResult().getId();
 			return "/index.jsf?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,7 +109,23 @@ public class LoginHandler implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public Date getMinGeburtstag() {
+		return Date.from(LocalDate.now().minusYears(18).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+	}
+	
+	public Date getMaxGeburtstag() {
+		return Date.from(LocalDate.now().minusYears(100).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+	}
 
+	public Date getGeburtstag() {
+		return geburtstag;
+	}
+
+	public void setGeburtstag(Date geburtstag) {
+		this.geburtstag = geburtstag;
+	}
+	
 	public Integer getUserId() {
 		return userId;
 	}
@@ -114,7 +133,7 @@ public class LoginHandler implements Serializable {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	
+
 	public Queue<RollResult> getLastRolls() {
 		return lastRolls;
 	}
