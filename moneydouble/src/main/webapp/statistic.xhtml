@@ -21,9 +21,9 @@
 			        <h:graphicImage name="images/logo.png" height="50px;" />
 			    </h:link>
 			</p:menuitem>
-			<p:menuitem styleClass="navigation-menuitem" value="Home" url="/index.jsf" />
-			<p:menuitem styleClass="navigation-menuitem-selected" value="Statistic" url="/statistic.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="Money" url="/money.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="#{msg.home}" url="/index.jsf" />
+			<p:menuitem styleClass="navigation-menuitem-selected" value="#{msg.statistic}" url="/statistic.jsf" />
+			<p:menuitem styleClass="navigation-menuitem" value="#{msg.money}" url="/money.jsf" />
 			
 			<f:facet name="options">
 	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}"/>

@@ -26,11 +26,11 @@
 					<h:graphicImage name="images/logo.png" height="50" />
 				</h:link>
 			</p:menuitem>
-			<p:menuitem styleClass="navigation-menuitem-selected" value="Home"
+			<p:menuitem styleClass="navigation-menuitem-selected" value="#{msg.home}"
 				url="/index.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="Statistic"
+			<p:menuitem styleClass="navigation-menuitem" value="#{msg.statistic}"
 				url="/statistic.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="Money"
+			<p:menuitem styleClass="navigation-menuitem" value="#{msg.money}"
 				url="/money.jsf" />
 
 			<f:facet name="options">
@@ -50,7 +50,7 @@
 			<div id="pointer" />
 		</div>
 
-		<p:panel header="Money">
+		<p:panel header="#{msg.money}">
 			<div class="ui-grid ui-grid-responsive">
 				<div class="ui-grid-row">
 					<div class="ui-grid-col-2">
@@ -86,18 +86,18 @@
 				</div>
 			</div>
 			<h:panelGrid columns="2" cellpadding="10">
-				<h:outputLabel for="money" value="Balance:" style="width:150px;" />
+				<h:outputLabel for="money" value="#{msg.balance}" style="width:150px;" />
 				<h:outputLabel id="money" value="#{gameHandler.user.money}" />
-				<h:outputLabel for="geld" value="Bet amount:" style="width:150px;" />
+				<h:outputLabel for="geld" value="#{msg.amount}" style="width:150px;" />
 				<p:inputText id="geld" value="#{gameHandler.betAmount}"
-					required="true" requiredMessage="Please specify a valid amount">
+					required="true" requiredMessage="#{msg.amountValid}">
 					<f:validateLongRange minimum="1"
 						maximum="#{gameHandler.user.money}" />
 				</p:inputText>
 			</h:panelGrid>
 		</p:panel>
 
-		<p:panel header="Letzte Kugeln">
+		<p:panel header="#{msg.lastBalls}">
 			<p:dataList itemType="none" styleClass="rollHistoryList"
 				itemStyleClass="rollHistoryListItem" id="rollHistory"
 				var="rollResult" value="#{loginHandler.lastRolls}">
@@ -105,7 +105,7 @@
 			</p:dataList>
 		</p:panel>
 
-		<p:panel header="Setzen" class="ui-grid ui-grid-responsive">
+		<p:panel header="#{msg.bet}" class="ui-grid ui-grid-responsive">
 			<div class="ui-grid ui-grid-responsive">
 				<div class="ui-grid-row">
 					<div class="ui-grid-col-4">

@@ -20,13 +20,13 @@
 		<p:focus for="user" />
 		<p:panelGrid columns="2">
 			
-			<p:outputLabel value="Benutzername:" for="user" />
+			<p:outputLabel value="#{msg.username}" for="user" />
 			<h:panelGroup>
 				<p:inputText id="user" required="true" value="#{loginHandler.username}" requiredMessage="Benutzername fehlt"/>
 				<h:message for="user" styleClass="message" />
 			</h:panelGroup>
 			
-			<p:outputLabel value="Password:" for="password" />
+			<p:outputLabel value="#{msg.password}" for="password" />
 			<h:panelGroup>
 				<p:password id="password" required="true" value="#{loginHandler.password}" requiredMessage="Passwort fehlt"/>
 				<h:message for="password" styleClass="message" />
@@ -34,7 +34,7 @@
 		</p:panelGrid>
 		
 		<p:commandButton action="#{loginHandler.login()}" style="width:100%;" value="Login" update="growl"/>
-		<p:button value="Register" style="width:100%;" outcome="register.jsf" />
+		<p:button value="#{msg.register}" style="width:100%;" outcome="register.jsf" />
 	</h:form>
 	</div>
 </h:body>
