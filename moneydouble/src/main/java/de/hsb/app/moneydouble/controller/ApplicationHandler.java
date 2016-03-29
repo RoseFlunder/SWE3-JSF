@@ -16,8 +16,9 @@ import de.hsb.app.moneydouble.model.Benutzer;
 import de.hsb.app.moneydouble.model.Rolle;
 
 /**
- * Weiß noch nicht ob wir den brauchen, könnte nützlich sein wenn wir was machen wollen, dass die Session überdauert und
- * global für die Application gültig ist
+ * Hander der über die ganze Lebensdauer der Application gültig ist.
+ * Dient dazu um zu prüfen, ob bereits Demo Nutzer in der Datenbank vorhanden sind und fügt
+ * diese hinzu falls nicht.
  */
 @ManagedBean(eager = true)
 @ApplicationScoped

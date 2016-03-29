@@ -1,5 +1,8 @@
 package de.hsb.app.moneydouble.model;
 
+/**
+ * Enum für die Farben des Roulette Spiels
+ */
 public enum RouletteColor {
 	
 	RED("F2463D"),

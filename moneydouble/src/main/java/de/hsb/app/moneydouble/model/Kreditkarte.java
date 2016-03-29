@@ -11,6 +11,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Entität mit allen Informationen zu einer Kreditkarte
+ */
 @Entity
 public class Kreditkarte implements Serializable {
 

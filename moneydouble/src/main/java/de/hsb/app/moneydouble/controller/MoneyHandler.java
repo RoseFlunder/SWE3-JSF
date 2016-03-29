@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -30,31 +32,44 @@ public class MoneyHandler {
 
 	@ManagedProperty("#{loginHandler.userId}")
 	private Integer userId;
-	
+
+	/**
+	 * Aktuell eingeloggter Benutzer
+	 */
 	private Benutzer user;
 
+	/**
+	 * Kreditkarten Transaktionshistorie des Benutzers
+	 */
 	private List<KreditkartenTransaktion> transaktionen;
 
 	public MoneyHandler() {
 	}
 
+	/**
+	 * Wird aufgerufen bei jedem aktualisieren der "Money" View
+	 */
 	@PostConstruct
 	public void init() {
 		if (userId == null)
 			return;
-		
+
+		// aktuelle Benutzer Entität laden
 		user = em.find(Benutzer.class, userId);
 		tmpKreditkarte = user.getKreditkarte();
 
+		// Kreditkarten Transaktionshistorie des Benutzers laden
 		TypedQuery<KreditkartenTransaktion> tq = em.createNamedQuery(KreditkartenTransaktion.FIND_BY_USER,
 				KreditkartenTransaktion.class);
 		tq.setParameter("user", user);
-
 		transaktionen = tq.getResultList();
 	}
 
 	private Kreditkarte tmpKreditkarte;
 
+	/**
+	 * Neue Kreditkarte speichern
+	 */
 	public void saveCreditcard() {
 		try {
 			utx.begin();
@@ -68,6 +83,9 @@ public class MoneyHandler {
 		}
 	}
 
+	/**
+	 * Vorhandene Kreditkarte vom Nutzer entfernen
+	 */
 	public void deleteCreditcard() {
 		try {
 			utx.begin();
@@ -82,24 +100,29 @@ public class MoneyHandler {
 	}
 
 	/**
-	 * Changes the amount of the currently logged in user
+	 * Methode zum Aufladen oder Abbuchen von Credits für den aktuell
+	 * eingeloggten Benutzers.
+	 * 
 	 * @param numCredits
 	 */
 	public void modifiyCredits(Integer numCredits) {
-		try {
-			utx.begin();
+		if (user.getKreditkarte() == null)
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Creditcard", "Missing creditcard"));
 
+		try {
+			// Transaktion persistieren
+			utx.begin();
 			KreditkartenTransaktion tr = new KreditkartenTransaktion(numCredits, new Date(), user.getKreditkarte(),
 					user);
 			em.persist(tr);
 			transaktionen.add(0, tr);
 			utx.commit();
-			
-			utx.begin();
 
+			// Kontostand des Benutzers anpassen
+			utx.begin();
 			user.setMoney(user.getMoney() + numCredits);
 			user = em.merge(user);
-
 			utx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

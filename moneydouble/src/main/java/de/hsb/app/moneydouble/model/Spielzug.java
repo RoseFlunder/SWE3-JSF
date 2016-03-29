@@ -14,6 +14,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Entität die alle Informationen zu einem getätigen Spielzug des Benutzers enthält.
+ */
 @Entity
 @NamedQueries({
 	@NamedQuery(name=Spielzug.FIND_ALL, query="SELECT s FROM Spielzug s"),

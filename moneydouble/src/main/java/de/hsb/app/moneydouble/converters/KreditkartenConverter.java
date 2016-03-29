@@ -5,6 +5,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Entfernt alle Leerzeichen und Bindestriche aus dem übergeben Text
+ */
 @FacesConverter("kreditkartenConverter")
 public class KreditkartenConverter implements Converter {
 

@@ -15,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Entität für einen Benutzer
+ */
 @Entity
 @NamedQueries({
 	@NamedQuery(name=Benutzer.FIND_ADMIN_USER, query="select b from Benutzer b where b.username='admin'"),

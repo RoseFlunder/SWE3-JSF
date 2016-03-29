@@ -1,5 +1,8 @@
 package de.hsb.app.moneydouble.model;
 
+/**
+ * Klasse für die temporäre Ergebnis Historie
+ */
 public class RollResult {
 	
 	private RouletteColor color;

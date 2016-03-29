@@ -18,20 +18,32 @@ import de.hsb.app.moneydouble.model.Benutzer;
 import de.hsb.app.moneydouble.model.RouletteColor;
 import de.hsb.app.moneydouble.model.Spielzug;
 
+/**
+ * Handler für die Statistikseiten
+ */
 @ManagedBean
 @ViewScoped
 public class StatisticHandler implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Liste mit der Spielzughistorie des aktuellen Benutzers
+	 */
 	private List<Spielzug> spielzuege;
 	
+	/**
+	 * Id des aktuell eingeloggten Benutzers
+	 */
 	@ManagedProperty("#{loginHandler.userId}")
 	private Integer userId;
 
 	@PersistenceContext
 	private EntityManager em;
 	
+	/**
+	 * Chart Model für Statistik welche Farben vom Nutzer gewählt wurden
+	 */
 	private PieChartModel userPieModel;
 
 	@PostConstruct
@@ -50,7 +62,7 @@ public class StatisticHandler implements Serializable {
 		
 		
 		String seriesColors = new String();
-		
+		//Query um die Statistik der vom Benutzer gewählten Farben aufzubauen
 		Query q = em.createNamedQuery(Spielzug.COUNT_GUESS_DISTRIBUTION_BY_USER);
 		q.setParameter("user", b);
 		@SuppressWarnings("unchecked")
@@ -61,6 +73,7 @@ public class StatisticHandler implements Serializable {
 			seriesColors += (color.getStatisticColor() + ",");
 		}
 		
+		//Chart Model mit Farben versehen
 		if (!seriesColors.isEmpty()){
 			seriesColors = seriesColors.substring(0, seriesColors.length() - 1);
 			userPieModel.setSeriesColors(seriesColors);

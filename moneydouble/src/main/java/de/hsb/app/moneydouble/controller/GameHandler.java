@@ -20,6 +20,9 @@ import de.hsb.app.moneydouble.model.RollResult;
 import de.hsb.app.moneydouble.model.RouletteColor;
 import de.hsb.app.moneydouble.model.Spielzug;
 
+/**
+ * Handler für die Hauptseite zum Spielen.
+ */
 @ManagedBean
 @ViewScoped
 public class GameHandler implements Serializable {
@@ -40,12 +43,24 @@ public class GameHandler implements Serializable {
 	@Resource
 	private UserTransaction utx;
 	
+	/**
+	 * Aktuell eingeloggter Benutzers
+	 */
 	private Benutzer user;
 
+	/**
+	 * Einsatz des Benutzers
+	 */
 	private Integer betAmount;
 
+	/**
+	 * Aktuelle gewürfeltes Spielergenis
+	 */
 	private Integer number;
 
+	/**
+	 * Flag ob die Animation auf der Hauptseite aktiv ist.
+	 */
 	private boolean animationRunning;
 
 	public GameHandler() {
@@ -62,6 +77,7 @@ public class GameHandler implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		//Entity des aktuelle eingeloggten Benutzers laden
 		if (userId != null)
 			user = em.find(Benutzer.class, userId);
 		
@@ -69,12 +85,16 @@ public class GameHandler implements Serializable {
 	}
 
 	/**
-	 * @return Number between 0 and 14
+	 * Methode die von den Buttons zum Spielen aufgerufen wird.
+	 * Es wird die gewählte Farbe übergeben und eine Zufallszahl zwischen 0 und 14 gewürfelt.
+	 * Der Kontostand des Nutzers wird je nach Ausgang modifiziert und die JavaScript Animation gestartet.
 	 */
 	public void play(RouletteColor guess) {
+		//Roulette Ergebnis
 		setNumber((int) (Math.random() * (MAX_NUMBER + 1)));
 		RouletteColor color = RouletteColor.getColorFromNumber(number);
 
+		//Füge aktuelles Ergebnis der temporären Historie auf der Hauptseite hinzu
 		RollResult rr = new RollResult(color, number);
 		while (lastRolls.size() >= 10)
 			lastRolls.poll();
@@ -82,9 +102,11 @@ public class GameHandler implements Serializable {
 
 		try {
 			utx.begin();
+			//Kontostand des Benutzers anpassen
 			user.setMoney(user.getMoney() + (guess.equals(color)
 					? (RouletteColor.GREEN.equals(color) ? betAmount * 14 : betAmount) : -betAmount));
 			user = em.merge(user);
+			//Spielzug persistieren für die Statistik
 			Spielzug spielzug = new Spielzug(user, betAmount, guess, color, new Date());
 			em.persist(spielzug);
 			utx.commit();
@@ -92,6 +114,7 @@ public class GameHandler implements Serializable {
 			e.printStackTrace();
 		}
 
+		//Animation starten
 		setAnimationRunning(true);
 		RequestContext.getCurrentInstance().execute("spin(" + getNumber() + ")");
 	}

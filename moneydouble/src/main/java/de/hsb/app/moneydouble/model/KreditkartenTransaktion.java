@@ -13,6 +13,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Entität die alle Informationen zu einer getätigen Transaktion mit einer Kreditkarte abspeichert
+ */
 @Entity
 @NamedQueries({
 		@NamedQuery(name = KreditkartenTransaktion.FIND_BY_USER, query = "SELECT t FROM KreditkartenTransaktion t WHERE t.user = :user ORDER BY t.timestamp DESC") })

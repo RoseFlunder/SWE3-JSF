@@ -1,5 +1,8 @@
 package de.hsb.app.moneydouble.model;
 
+/**
+ * Enum für Kreditkartentypen
+ */
 public enum Kreditkartentyp {
 
 	MASTER("MasterCard"),

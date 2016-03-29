@@ -23,16 +23,35 @@ import de.hsb.app.moneydouble.model.Benutzer;
 import de.hsb.app.moneydouble.model.RollResult;
 import de.hsb.app.moneydouble.model.Rolle;
 
+/**
+ * Handler für den Login/Logout und Registrierung.
+ * Speichert zusätzlich Session Variablen ab.
+ */
 @ManagedBean
 @SessionScoped
 public class LoginHandler implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Geburtsdatum für die Registrierung
+	 */
 	private Date geburtstag;
+	
+	/**
+	 * Benutzername für Login/Registrierung
+	 */
 	private String username;
+	
+	
+	/**
+	 * Password für Login/Registierung
+	 */
 	private String password;
 
+	/**
+	 * Id des aktuell eingeloggten Benutzers
+	 */
 	private Integer userId;
 
 	@PersistenceContext
@@ -41,6 +60,9 @@ public class LoginHandler implements Serializable {
 	@Resource
 	private UserTransaction utx;
 
+	/**
+	 * Temporäre Ergebnisliste für die letzten 10 Ergebnisse
+	 */
 	private Queue<RollResult> lastRolls;
 
 	@PostConstruct
@@ -49,6 +71,9 @@ public class LoginHandler implements Serializable {
 		userId = null;
 	}
 
+	/**
+	 * Fügt einen neuen Benutzer hinzu und leitet auf die Login-Seite
+	 */
 	public String register() {
 		try {
 			utx.begin();
@@ -63,6 +88,9 @@ public class LoginHandler implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Versucht einen Benutzer einzuloggen und leitet bei Erfolg auf die Hauptseite.
+	 */
 	public String login() {
 		TypedQuery<Benutzer> q = em.createNamedQuery(Benutzer.GET_USER_LOGIN, Benutzer.class);
 		q.setParameter("username", username);
@@ -80,6 +108,9 @@ public class LoginHandler implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Prüft ob ein Nutzer eingeloggt und leitet auf die Login-Seite zurück falls nicht.
+	 */
 	public void checkLoggedIn(ComponentSystemEvent cse) {
 		FacesContext context = FacesContext.getCurrentInstance();
 
@@ -89,6 +120,9 @@ public class LoginHandler implements Serializable {
 		}
 	}
 
+	/**
+	 * Der aktuelle Benutzer wird ausgeloggt und es wird die Login-Seite aufgerufen
+	 */
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "/login.jsf?faces-redirect=true";
