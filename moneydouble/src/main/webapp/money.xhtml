@@ -19,26 +19,11 @@
 	</f:facet>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<p:growl id="growl" showDetail="true" sticky="false" />
-	<h:form id="navigation">
-		<p:menubar>
-			<p:menuitem>
-				<h:link outcome="/index.jsf">
-					<h:graphicImage name="images/logo.png" height="50" />
-				</h:link>
-			</p:menuitem>
-			<p:menuitem styleClass="navigation-menuitem" value="#{msg.home}"
-				url="/index.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="#{msg.statistic}"
-				url="/statistic.jsf" />
-			<p:menuitem styleClass="navigation-menuitem-selected" value="#{msg.money}"
-				url="/money.jsf" />
-
-			<f:facet name="options">
-				<p:commandButton value="Logout" icon="ui-icon-extlink"
-					action="#{loginHandler.logout()}" />
-			</f:facet>
-		</p:menubar>
-	</h:form>
+	
+	<ui:include src="/WEB-INF/navigation.xhtml">
+		<ui:param name="logoutAction" value="#{loginHandler.logout()}" />
+		<ui:param name="viewId" value="money.xhtml" />
+	</ui:include>
 
 	<h:outputLabel for="money" value="Balance:" />
 	<h:outputText id="money" value="#{moneyHandler.user.money}" />

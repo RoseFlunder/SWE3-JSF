@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -76,6 +77,8 @@ public class StatisticHandler implements Serializable {
 				Spielzug.COUNT_RESULT_DISTRIBUTION_BY_USER);
 
 		initWinningsLineModel();
+		
+		System.out.println(FacesContext.getCurrentInstance().getViewRoot().getViewId());
 	}
 
 	private void initWinningsLineModel() {

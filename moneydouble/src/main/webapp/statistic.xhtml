@@ -15,22 +15,11 @@
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	<h:form id="navigation">
-		<p:menubar>
-			<p:menuitem>
-			    <h:link outcome="/index.jsf">
-			        <h:graphicImage name="images/logo.png" height="50px;" />
-			    </h:link>
-			</p:menuitem>
-			<p:menuitem styleClass="navigation-menuitem" value="#{msg.home}" url="/index.jsf" />
-			<p:menuitem styleClass="navigation-menuitem-selected" value="#{msg.statistic}" url="/statistic.jsf" />
-			<p:menuitem styleClass="navigation-menuitem" value="#{msg.money}" url="/money.jsf" />
-			
-			<f:facet name="options">
-	            <p:commandButton value="Logout" icon="ui-icon-extlink" action="#{loginHandler.logout()}"/>
-	        </f:facet>
-		</p:menubar>
-	</h:form>
+	
+	<ui:include src="/WEB-INF/navigation.xhtml">
+		<ui:param name="logoutAction" value="#{loginHandler.logout()}" />
+		<ui:param name="viewId" value="statistic.xhtml" />
+	</ui:include>
 	
 	<p:tabView orientation="left" >
 		<p:tab title="Bet history">
