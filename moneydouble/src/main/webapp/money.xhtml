@@ -98,34 +98,34 @@
 							disabled="#{empty moneyHandler.user.kreditkarte}"
 							value="Buy 1000 Credits (10€)"
 							action="#{moneyHandler.modifiyCredits(1000)}"
-							update="growl transactionHistory money" />
+							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="buy2000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte}"
 							value="Buy 2000 Credits (20€)"
 							action="#{moneyHandler.modifiyCredits(2000)}"
-							update="growl transactionHistory money" />
+							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="buy5000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte}"
 							value="Buy 5000 Credits (50€)"
 							action="#{moneyHandler.modifiyCredits(5000)}"
-							update="growl transactionHistory money" />
+							update="growl transactionHistory money buyOrSellSection" />
 					</div>
 					<div class="ui-grid-row">
 						<p:commandButton id="sell1000" class="ui-grid-col-4"
-							disabled="#{empty moneyHandler.user.kreditkarte}"
+							disabled="#{empty moneyHandler.user.kreditkarte or moneyHandler.user.money lt 1000}"
 							value="Sell 1000 Credits (10€)"
 							action="#{moneyHandler.modifiyCredits(-1000)}"
-							update="growl transactionHistory money" />
+							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="sell2000" class="ui-grid-col-4"
-							disabled="#{empty moneyHandler.user.kreditkarte}"
+							disabled="#{empty moneyHandler.user.kreditkarte or moneyHandler.user.money lt 2000}"
 							value="Sell 2000 Credits (20€)"
 							action="#{moneyHandler.modifiyCredits(-2000)}"
-							update="growl transactionHistory money" />
+							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="sell5000" class="ui-grid-col-4"
-							disabled="#{empty moneyHandler.user.kreditkarte}"
+							disabled="#{empty moneyHandler.user.kreditkarte or moneyHandler.user.money lt 5000}"
 							value="Sell 5000 Credits (50€)"
 							action="#{moneyHandler.modifiyCredits(-5000)}"
-							update="growl transactionHistory money" />
+							update="growl transactionHistory money buyOrSellSection" />
 					</div>
 				</div>
 			</h:panelGroup>
