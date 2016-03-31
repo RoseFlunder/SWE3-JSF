@@ -55,7 +55,12 @@
 		</p:tab>
 		<p:tab title="Distribution">
 			<p:chart type="pie" model="#{statisticHandler.userPieModel}" style="width:400px;height:300px" />
+			<p:chart type="pie" model="#{statisticHandler.resultPieModel}" style="width:400px;height:300px" />
 		</p:tab>
+		<p:tab title="Your profits">
+			<p:chart type="line" model="#{statisticHandler.winningsLineModel}" style="height:300px;" responsive="true"/>
+		</p:tab>
+		
 	</p:tabView>
 </h:body>
 </html>

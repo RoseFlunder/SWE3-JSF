@@ -22,7 +22,9 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name=Spielzug.FIND_ALL, query="SELECT s FROM Spielzug s"),
 	@NamedQuery(name=Spielzug.FIND_BY_USER, query="SELECT s FROM Spielzug s WHERE s.user = :user ORDER BY s.timestamp DESC"),
 	@NamedQuery(name=Spielzug.COUNT_GUESS_DISTRIBUTION_BY_USER, query="SELECT s.guess, COUNT(s.guess) FROM Spielzug s "
-			+ "WHERE s.user = :user AND s.guess is not null GROUP BY s.guess ORDER BY s.guess")
+			+ "WHERE s.user = :user AND s.guess is not null GROUP BY s.guess ORDER BY s.guess"),
+	@NamedQuery(name=Spielzug.COUNT_RESULT_DISTRIBUTION_BY_USER, query="SELECT s.result, COUNT(s.result) FROM Spielzug s "
+			+ "WHERE s.user = :user AND s.result is not null GROUP BY s.result ORDER BY s.result")
 })
 public class Spielzug implements Serializable {
 
@@ -31,6 +33,7 @@ public class Spielzug implements Serializable {
 	public static final String FIND_ALL = "Spielzug.findAll";
 	public static final String FIND_BY_USER = "Spielzug.findByUser";
 	public static final String COUNT_GUESS_DISTRIBUTION_BY_USER = "Spielzug.countGuessDistributionByUser";
+	public static final String COUNT_RESULT_DISTRIBUTION_BY_USER = "Spielzug.countResultDistributionByUser";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
