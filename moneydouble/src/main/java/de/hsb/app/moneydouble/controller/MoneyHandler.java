@@ -109,6 +109,10 @@ public class MoneyHandler {
 		if (user.getKreditkarte() == null)
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Creditcard", "Missing creditcard"));
+		
+		if (numCredits < 0 && user.getMoney() < Math.abs(numCredits))
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Not enough credits"));
 
 		try {
 			// Transaktion persistieren
