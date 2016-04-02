@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Queue;
 
 import javax.annotation.PostConstruct;
@@ -24,8 +25,8 @@ import de.hsb.app.moneydouble.model.RollResult;
 import de.hsb.app.moneydouble.model.Rolle;
 
 /**
- * Handler für den Login/Logout und Registrierung.
- * Speichert zusätzlich Session Variablen ab.
+ * Handler für den Login/Logout und Registrierung. Speichert zusätzlich Session
+ * Variablen ab.
  */
 @ManagedBean
 @SessionScoped
@@ -37,13 +38,12 @@ public class LoginHandler implements Serializable {
 	 * Geburtsdatum für die Registrierung
 	 */
 	private Date geburtstag;
-	
+
 	/**
 	 * Benutzername für Login/Registrierung
 	 */
 	private String username;
-	
-	
+
 	/**
 	 * Password für Login/Registierung
 	 */
@@ -65,10 +65,16 @@ public class LoginHandler implements Serializable {
 	 */
 	private Queue<RollResult> lastRolls;
 
+	/**
+	 * Sprache für die Darstellung
+	 */
+	private Locale locale;
+
 	@PostConstruct
 	public void init() {
 		lastRolls = new LinkedList<>();
 		userId = null;
+		setLocale(FacesContext.getCurrentInstance().getExternalContext().getRequestLocale());
 	}
 
 	/**
@@ -89,7 +95,8 @@ public class LoginHandler implements Serializable {
 	}
 
 	/**
-	 * Versucht einen Benutzer einzuloggen und leitet bei Erfolg auf die Hauptseite.
+	 * Versucht einen Benutzer einzuloggen und leitet bei Erfolg auf die
+	 * Hauptseite.
 	 */
 	public String login() {
 		TypedQuery<Benutzer> q = em.createNamedQuery(Benutzer.GET_USER_LOGIN, Benutzer.class);
@@ -109,7 +116,8 @@ public class LoginHandler implements Serializable {
 	}
 
 	/**
-	 * Prüft ob ein Nutzer eingeloggt und leitet auf die Login-Seite zurück falls nicht.
+	 * Prüft ob ein Nutzer eingeloggt und leitet auf die Login-Seite zurück
+	 * falls nicht.
 	 */
 	public void checkLoggedIn(ComponentSystemEvent cse) {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -120,8 +128,14 @@ public class LoginHandler implements Serializable {
 		}
 	}
 
+	public String specifyLocale(String locale) {
+		setLocale(Locale.forLanguageTag(locale));
+		return FacesContext.getCurrentInstance().getViewRoot().getViewId() + "?faces-redirect=true";
+	}
+
 	/**
-	 * Der aktuelle Benutzer wird ausgeloggt und es wird die Login-Seite aufgerufen
+	 * Der aktuelle Benutzer wird ausgeloggt und es wird die Login-Seite
+	 * aufgerufen
 	 */
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
@@ -143,11 +157,11 @@ public class LoginHandler implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public Date getMinGeburtstag() {
 		return Date.from(LocalDate.now().minusYears(18).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 	}
-	
+
 	public Date getMaxGeburtstag() {
 		return Date.from(LocalDate.now().minusYears(100).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 	}
@@ -159,7 +173,7 @@ public class LoginHandler implements Serializable {
 	public void setGeburtstag(Date geburtstag) {
 		this.geburtstag = geburtstag;
 	}
-	
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -174,5 +188,13 @@ public class LoginHandler implements Serializable {
 
 	public void setLastRolls(Queue<RollResult> lastRolls) {
 		this.lastRolls = lastRolls;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 }
