@@ -3,6 +3,7 @@ package de.hsb.app.moneydouble.controller;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -60,6 +61,9 @@ public class StatisticHandler implements Serializable {
 	 * Chart Model für kummulierte Gewinne
 	 */
 	private LineChartModel winningsLineModel;
+	
+	@ManagedProperty("#{msg}")
+	private ResourceBundle bundle;
 
 	@PostConstruct
 	public void init() {
@@ -71,9 +75,9 @@ public class StatisticHandler implements Serializable {
 		tq.setParameter("user", b);
 		setSpielzuege(tq.getResultList());
 
-		initDistributionPieModel(b, userPieModel = new PieChartModel(), "My guess distribution",
+		initDistributionPieModel(b, userPieModel = new PieChartModel(), bundle.getString("guess_distribution"),
 				Spielzug.COUNT_GUESS_DISTRIBUTION_BY_USER);
-		initDistributionPieModel(b, resultPieModel = new PieChartModel(), "Results distribution",
+		initDistributionPieModel(b, resultPieModel = new PieChartModel(), bundle.getString("result_distribution"),
 				Spielzug.COUNT_RESULT_DISTRIBUTION_BY_USER);
 
 		initWinningsLineModel();
@@ -99,12 +103,12 @@ public class StatisticHandler implements Serializable {
 		}
 
 		winningsLineModel.addSeries(series);
-		winningsLineModel.setTitle("Cummulative Profit");
+		winningsLineModel.setTitle(bundle.getString("cummulative_profit"));
 		winningsLineModel.getAxis(AxisType.X).setMin(0);
 		winningsLineModel.getAxis(AxisType.X).setTickInterval("1");
-		winningsLineModel.getAxis(AxisType.X).setLabel("Game");
+		winningsLineModel.getAxis(AxisType.X).setLabel(bundle.getString("game"));
 		
-		winningsLineModel.getAxis(AxisType.Y).setLabel("Profit");
+		winningsLineModel.getAxis(AxisType.Y).setLabel(bundle.getString("profit"));
 	}
 
 	private void initDistributionPieModel(Benutzer b, PieChartModel model, String title, String query) {
@@ -168,6 +172,14 @@ public class StatisticHandler implements Serializable {
 
 	public void setWinningsLineModel(LineChartModel winningsLineModel) {
 		this.winningsLineModel = winningsLineModel;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 	
 	

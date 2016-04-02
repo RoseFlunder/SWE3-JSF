@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-<h:outputStylesheet library="css" name="moneydouble.css"/>
+<f:view locale="#{loginHandler.locale}" />
 
 <h:head>
 	<f:facet name="first">
@@ -15,6 +15,9 @@
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="moneydouble.css" />
+	</f:facet>
 	
 	<ui:include src="/WEB-INF/navigation.xhtml">
 		<ui:param name="viewId" value="statistic.xhtml" />
