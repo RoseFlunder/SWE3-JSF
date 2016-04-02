@@ -5,8 +5,11 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:view locale="#{loginHandler.locale}" />
+<<<<<<< HEAD
 <script type="text/javascript" src="resources/roll.js" />
 <h:outputStylesheet library="css" name="moneydouble.css"/>
+=======
+>>>>>>> branch 'master' of https://github.com/RoseFlunder/SWE3-MoneyDouble.git
 
 <h:head>
 	<f:facet name="first">
@@ -17,6 +20,9 @@
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<f:facet name="last">
+		<h:outputStylesheet library="css" name="moneydouble.css" />
+	</f:facet>
 	
 	<ui:include src="/WEB-INF/navigation.xhtml">
 		<ui:param name="viewId" value="statistic.xhtml" />
