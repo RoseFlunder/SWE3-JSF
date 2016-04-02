@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,7 +26,7 @@ public class Kreditkarte implements Serializable {
 	private Kreditkartentyp typ;
 	@NotNull
 	private String nummer;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.DATE) @Future @NotNull
 	private Date gueltigBis;
 	@NotNull @Size(min = 2, message="Minium length of two characters")
 	private String inhaber;
