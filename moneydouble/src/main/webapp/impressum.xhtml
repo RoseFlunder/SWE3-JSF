@@ -4,6 +4,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,19 +25,19 @@
 	</ui:include>
 
 	<h:form>
-		<h2>Adresse:</h2>
+		<h2>#{msg.address}</h2>
 		<div style="width: 300px; border: 1px solid; background-color: #FFFFFF">
 			Hochschule Bremerhaven
 			<br>An der Karlstadt 8</br>
 			27568 Bremerhaven
 		</div>
-		<h2>Kontakt:</h2>
+		<h2>#{msg.contact}</h2>
 		<div style="width: 300px; border: 1px solid; background-color: #FFFFFF">
 			Tel.: +49 471 48 23-0 
 			<br>Fax.: +49 471 48 23-199</br> 
 			E-mail: info@hs-bremerhaven.de
 		</div>
-		<h2>Datenschutz:</h2>
+		<h2>#{msg.dataprivacy}</h2>
 		<div style="width: 600px; border: 1px solid; background-color: #FFFFFF">
 			Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. 
 			Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen 

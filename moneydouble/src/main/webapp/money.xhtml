@@ -6,6 +6,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,12 +25,14 @@
 		<ui:param name="viewId" value="money.xhtml" />
 	</ui:include>
 
-	<h:outputLabel for="money" value="Balance:" />
-	<h:outputText id="money" value="#{moneyHandler.user.money}" />
+	<p:panel header="#{msg.money}">
+		<h:outputLabel for="money" value="#{msg.balance}" />
+		<h:outputText id="money" value="#{moneyHandler.user.money}" />
+	</p:panel>
 
 	<h:panelGroup id="addCreditCardSection">
 		<h:form rendered="#{empty moneyHandler.user.kreditkarte}">
-			<p:commandButton value="Add creditcard information"
+			<p:commandButton value="#{msg.addcredit}"
 				update="creditcardGroup addCreditCardSection"
 				action="#{moneyHandler.createNewCreditcard()}" />
 		</h:form>
@@ -38,21 +41,21 @@
 	<h:panelGroup id="creditcardGroup">
 		<h:form rendered="#{not empty moneyHandler.tmpKreditkarte}">
 			<p:panelGrid columns="2">
-				<h:outputLabel value="Kartentyp:" for="typ" />
+				<h:outputLabel value="#{msg.cardtype}" for="typ" />
 				<p:selectOneMenu id="typ" value="#{moneyHandler.tmpKreditkarte.typ}">
 					<f:selectItems var="form"
 						value="#{moneyHandler.kreditkartentypValues}" itemValue="#{form}"
 						itemLabel="#{form.label}" />
 				</p:selectOneMenu>
 
-				<h:outputLabel value="Kreditkartennummer:" for="kknummer" />
+				<h:outputLabel value="#{msg.creditcardnumber}" for="kknummer" />
 				<p:inputText id="kknummer"
 					value="#{moneyHandler.tmpKreditkarte.nummer}">
 					<f:converter converterId="kreditkartenConverter" />
 					<f:validator validatorId="kreditkartenValidator" />
 				</p:inputText>
 
-				<h:outputLabel value="Gültig bis: (z.B. 10/15)" for="gueltig" />
+				<h:outputLabel value="#{msg.validuntil}" for="gueltig" />
 				<h:panelGroup>
 					<p:calendar id="gueltig"
 						value="#{moneyHandler.tmpKreditkarte.gueltigBis}" mode="popup"
@@ -60,7 +63,7 @@
 					<h:message for="gueltig" styleClass="message" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Inhaber:" for="inhaber" />
+				<h:outputLabel value="#{msg.owner}" for="inhaber" />
 				<h:panelGroup>
 					<p:inputText id="inhaber"
 						value="#{moneyHandler.tmpKreditkarte.inhaber}" required="true"
@@ -68,10 +71,10 @@
 					<h:message for="inhaber" styleClass="message" />
 				</h:panelGroup>
 			</p:panelGrid>
-			<p:commandButton value="Löschen"
+			<p:commandButton value="#{msg.delete}"
 				action="#{moneyHandler.deleteCreditcard()}"
 				update="creditcardGroup addCreditCardSection buyOrSellSection" />
-			<p:commandButton value="Speichern"
+			<p:commandButton value="#{msg.save}"
 				action="#{moneyHandler.saveCreditcard()}"
 				update="growl buyOrSellSection" />
 
@@ -80,34 +83,34 @@
 					<div class="ui-grid-row">
 						<p:commandButton id="buy1000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte}"
-							value="Buy 1000 Credits (10€)"
+							value="#{msg.buy} 1000 Credits (10€)"
 							action="#{moneyHandler.modifiyCredits(1000)}"
 							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="buy2000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte}"
-							value="Buy 2000 Credits (20€)"
+							value="#{msg.buy} 2000 Credits (20€)"
 							action="#{moneyHandler.modifiyCredits(2000)}"
 							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="buy5000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte}"
-							value="Buy 5000 Credits (50€)"
+							value="#{msg.buy} 5000 Credits (50€)"
 							action="#{moneyHandler.modifiyCredits(5000)}"
 							update="growl transactionHistory money buyOrSellSection" />
 					</div>
 					<div class="ui-grid-row">
 						<p:commandButton id="sell1000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte or moneyHandler.user.money lt 1000}"
-							value="Sell 1000 Credits (10€)"
+							value="#{msg.sell} 1000 Credits (10€)"
 							action="#{moneyHandler.modifiyCredits(-1000)}"
 							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="sell2000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte or moneyHandler.user.money lt 2000}"
-							value="Sell 2000 Credits (20€)"
+							value="#{msg.sell} 2000 Credits (20€)"
 							action="#{moneyHandler.modifiyCredits(-2000)}"
 							update="growl transactionHistory money buyOrSellSection" />
 						<p:commandButton id="sell5000" class="ui-grid-col-4"
 							disabled="#{empty moneyHandler.user.kreditkarte or moneyHandler.user.money lt 5000}"
-							value="Sell 5000 Credits (50€)"
+							value="#{msg.sell} 5000 Credits (50€)"
 							action="#{moneyHandler.modifiyCredits(-5000)}"
 							update="growl transactionHistory money buyOrSellSection" />
 					</div>
@@ -123,7 +126,7 @@
 				<h:outputText value="#{transaktion.cents}" />
 			</p:column>
 
-			<p:column headerText="Creditcard number">
+			<p:column headerText="#{msg.credit}">
 				<h:outputText value="#{transaktion.kreditkarte.nummer}" />
 			</p:column>
 
@@ -131,7 +134,7 @@
 				<h:outputText value="#{transaktion.euro}" />
 			</p:column>
 
-			<p:column headerText="Timestamp">
+			<p:column headerText="#{msg.timestamp}">
 				<h:outputText value="#{transaktion.timestamp}" />
 			</p:column>
 		</p:dataTable>

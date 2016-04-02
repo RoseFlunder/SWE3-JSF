@@ -4,6 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<f:view locale="#{loginHandler.locale}" />
+<script type="text/javascript" src="resources/roll.js" />
 <h:outputStylesheet library="css" name="moneydouble.css"/>
 
 <h:head>
@@ -21,38 +23,38 @@
 	</ui:include>
 	
 	<p:tabView orientation="left" style="background-color:#E3E3E3;">
-		<p:tab title="Bet history">
+		<p:tab title="#{msg.betHistory}">
 			<p:dataTable var="zug" value="#{statisticHandler.spielzuege}"
 				rowStyleClass="#{zug.guess eq zug.result ? 'win' : 'loss'}" reflow="true">
-				<p:column headerText="Guess">
+				<p:column headerText="#{msg.guess}">
 					<h:outputText value="#{zug.guess}" />
 				</p:column>
 
-				<p:column headerText="Result">
+				<p:column headerText="#{msg.result}">
 					<h:outputText value="#{zug.result}" />
 				</p:column>
 
-				<p:column headerText="Amount">
+				<p:column headerText="#{msg.amounts}">
 					<h:outputText value="#{zug.moneyAmount}" />
 				</p:column>
 
-				<p:column headerText="Timestamp">
+				<p:column headerText="#{msg.timestamp}">
 					<h:outputText value="#{zug.timestamp}">
 						<f:convertDateTime pattern="dd.MM.yyyy '-' HH:mm:ss" />
 					</h:outputText>
 				</p:column>
 			</p:dataTable>
 		</p:tab>
-		<p:tab title="Distribution">
+		<p:tab title="#{msg.distribution}">
 			<div class="ui-grid ui-grid-fixed">
 			    <div class="ui-grid-row">
-			        <div class="ui-grid-col-4"><p:chart type="pie" model="#{statisticHandler.userPieModel}" style="width:400px;height:300px" /></div>
-			        <div class="ui-grid-col-4"><p:chart type="pie" model="#{statisticHandler.resultPieModel}" style="width:400px;height:300px" /></div>
+			        <div class="ui-grid-col-5"><p:chart type="pie" model="#{statisticHandler.userPieModel}" style="width:400px;height:300px" /></div>
+			        <div class="ui-grid-col-5"><p:chart type="pie" model="#{statisticHandler.resultPieModel}" style="width:400px;height:300px" /></div>
 			    </div>
 			</div>
 		</p:tab>
-		<p:tab title="Your profits">
-			<p:chart type="line" model="#{statisticHandler.winningsLineModel}" style="height:300px;" responsive="true"/>
+		<p:tab title="#{msg.yourProfits}">
+			<p:chart id="chartresize" type="line" model="#{statisticHandler.winningsLineModel}" style="height:300px;" responsive="true"/>
 		</p:tab>
 		
 	</p:tabView>

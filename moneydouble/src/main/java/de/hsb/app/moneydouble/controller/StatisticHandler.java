@@ -103,7 +103,6 @@ public class StatisticHandler implements Serializable {
 		winningsLineModel.getAxis(AxisType.X).setMin(0);
 		winningsLineModel.getAxis(AxisType.X).setTickInterval("1");
 		winningsLineModel.getAxis(AxisType.X).setLabel("Game");
-		
 		winningsLineModel.getAxis(AxisType.Y).setLabel("Profit");
 	}
 

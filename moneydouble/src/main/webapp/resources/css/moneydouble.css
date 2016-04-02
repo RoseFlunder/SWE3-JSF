@@ -16,7 +16,6 @@
 body {
 	background-color: lightblue;
     background-image: url("cash424.png.jsf?ln=images");
-    
 }
 
 .ui-corner-left {
@@ -106,22 +105,6 @@ body {
     padding: 10px 10px;
 }
 
-#navigation .ui-menu-list{
-	display: inherit;
-}
-
-#navigation .ui-menuitem{
-	display: inherit;
-}
-
-#navigation .ui-menuitem-link{
-	display: inherit;
-}
-
-#navigation .ui-menuitem-text{
-	display: block;
-}
-
 #logout{
 	float: right;
 }
@@ -135,8 +118,25 @@ body {
 	background-color: inherit;
 }
 
+.ui-tabs.ui-tabs-left .ui-tabs-nav li {
+	border-right: 1px solid #a8a8a8 !important;
+}
+
 .navigation-menuitem .ui-menuitem-text {
     font-size: x-large;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ui-submenu-link .ui-menuitem-text {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: x-large;
+}
+
+.navigation-menuitem-selected .ui-menuitem-text {
+    font-size: x-large;
+    font-weight: bolder;
     padding-top: 10px;
     padding-bottom: 10px;
 }
