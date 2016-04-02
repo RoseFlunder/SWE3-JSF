@@ -42,8 +42,12 @@
 			</p:dataTable>
 		</p:tab>
 		<p:tab title="Distribution">
-			<p:chart type="pie" model="#{statisticHandler.userPieModel}" style="width:400px;height:300px" />
-			<p:chart type="pie" model="#{statisticHandler.resultPieModel}" style="width:400px;height:300px" />
+			<div class="ui-grid ui-grid-fixed">
+			    <div class="ui-grid-row">
+			        <div class="ui-grid-col-4"><p:chart type="pie" model="#{statisticHandler.userPieModel}" style="width:400px;height:300px" /></div>
+			        <div class="ui-grid-col-4"><p:chart type="pie" model="#{statisticHandler.resultPieModel}" style="width:400px;height:300px" /></div>
+			    </div>
+			</div>
 		</p:tab>
 		<p:tab title="Your profits">
 			<p:chart type="line" model="#{statisticHandler.winningsLineModel}" style="height:300px;" responsive="true"/>
