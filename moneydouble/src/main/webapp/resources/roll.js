@@ -111,7 +111,3 @@ function finishRoll() {
 window.addEventListener('resize', function(event) {
 	snapRender();
 });
-
-$('#chartresize').bind('resize', function(event, ui) {
-    plot1.replot( { resetAxes: true } );
-});

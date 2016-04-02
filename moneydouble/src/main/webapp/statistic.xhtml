@@ -5,14 +5,13 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <f:view locale="#{loginHandler.locale}" />
-<script type="text/javascript" src="resources/roll.js" />
-<h:outputStylesheet library="css" name="moneydouble.css"/>
+<script type="text/javascript" src="resources/chart.js" />
 <h:head>
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	</f:facet>
 	<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
-	<title>Statistic</title>
+	<title>Moneydouble #{msg.statistic}</title>
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
@@ -56,9 +55,8 @@
 			</div>
 		</p:tab>
 		<p:tab title="#{msg.yourProfits}">
-			<p:chart id="chartresize" type="line" model="#{statisticHandler.winningsLineModel}" style="height:300px;" responsive="true"/>
+			<p:chart type="line" model="#{statisticHandler.winningsLineModel}" style="height:300px;" responsive="true" extender="plotAxisInterval"/>
 		</p:tab>
-		
 	</p:tabView>
 </h:body>
 </html>

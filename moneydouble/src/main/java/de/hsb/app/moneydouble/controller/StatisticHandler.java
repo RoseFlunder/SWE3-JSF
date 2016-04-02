@@ -104,11 +104,9 @@ public class StatisticHandler implements Serializable {
 
 		winningsLineModel.addSeries(series);
 		winningsLineModel.setTitle(bundle.getString("cummulative_profit"));
-		winningsLineModel.getAxis(AxisType.X).setMin(0);
-		winningsLineModel.getAxis(AxisType.X).setTickInterval("1");
 		winningsLineModel.getAxis(AxisType.X).setLabel(bundle.getString("game"));
-		
 		winningsLineModel.getAxis(AxisType.Y).setLabel(bundle.getString("profit"));
+		winningsLineModel.setExtender("plotAxisInterval");
 	}
 
 	private void initDistributionPieModel(Benutzer b, PieChartModel model, String title, String query) {
