@@ -8,7 +8,8 @@
 	<f:facet name="first">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	</f:facet>
-	<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{resource['images/favicon.ico']}" />
 	<title>Moneydouble Login</title>
 </h:head>
 <h:body>
@@ -17,10 +18,22 @@
 	</f:facet>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<p:growl id="growl" showDetail="true" sticky="false" />
-	
+
 	<ui:include src="/WEB-INF/navigation.xhtml">
 		<ui:param name="logoutAction" value="#{loginHandler.logout()}" />
 		<ui:param name="viewId" value="impressum.xhtml" />
 	</ui:include>
+
+	<h:form>
+		<h2>Adresse:</h2>
+		<div style="white-space: pre-line; width: 300px; border: 1px solid; background-color: #FFFFFF">Hochschule
+			Bremerhaven An der Karlstadt 8 27568 Bremerhaven</div>
+		<h2>Kontakt:</h2>
+		<div style="white-space: pre-line; width: 300px; border: 1px solid; background-color: #FFFFFF">Tel.:
+			+49 471 48 23-0 Fax.: +49 471 48 23-199 E-mail:
+			info@hs-bremerhaven.de</div>
+		<h2>Datenschutz:</h2>
+		<div style="white-space: pre-line; width: 600px; border: 1px solid; background-color: #FFFFFF">Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung. Soweit auf unseren Seiten personenbezogene Daten erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.</div>
+	</h:form>
 </h:body>
 </html>
